@@ -4,12 +4,13 @@
 
 #include "Deserto.h"
 #include <iosfwd>
+#include <vector>
 using namespace std;
 
 void Deserto::lerFicheiro(string &nome) {
     ifstream file(nome);
     if (!file.is_open()) {
-        cerr<<"Erro: o ficheiro não foi aberto"<<endl;
+        cout<<"Erro: o ficheiro não foi aberto"<<endl;
     }
 
     string espaco;
@@ -68,3 +69,46 @@ void Deserto::lerFicheiro(string &nome) {
     }
 }
 
+bool Deserto::lerComando(Deserto deserto,int &fase) {
+    string linha, comando;
+    vector<string> argumentos;
+
+    cout<<"Insira comando:"<<endl;
+
+    getline(cin,linha);
+    istringstream iss(linha);
+
+    iss>>comando;
+
+    // Lê as palavras restantes e armazena no array 'argumentos'
+    string argumento;
+    while (iss >> argumento) {
+        argumentos.push_back(argumento);
+    }
+    if (comando.empty()) {
+        //cout<<"Insira comando novamente:"<<endl;
+        return false;
+    }
+    if (fase==1) {
+        if (comando=="config") {
+            if (argumentos.size() != 1) {
+                cout<<"Falta segundo argumento (exemplo config <nomeFicheiro>)"<<endl;
+                return false;
+            }
+            deserto.lerFicheiro(argumentos[0]);
+            fase=2;
+            return true;
+        }else if (comando == "sair") {
+            fase = 0;
+            return false;
+        }
+        else {
+            cout<<"Comando desconhecido"<<endl;
+            return false;
+        }
+    }
+    if (fase==2) {
+
+    }
+    return true;
+}

@@ -19,7 +19,7 @@ public:
     Deserto(): buffer(){}
 
     void lerFicheiro(string &nome);
-
+    bool lerComando(Deserto deserto, int &fase);
 
 
 
