@@ -3,6 +3,7 @@
 //
 
 #include "Deserto.h"
+#include <iosfwd>
 using namespace std;
 
 void Deserto::lerFicheiro(string &nome) {
@@ -26,9 +27,44 @@ void Deserto::lerFicheiro(string &nome) {
             buffer.setChar(i,j,linhaLida[j]);
         }
     }
-}
-
-
-void Deserto::printDeserto() {
     buffer.render();
+
+    // Lê os parâmetros configuráveis (como moedas)
+    string line;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string name;
+        int value;
+        if (iss >> name >> value) {
+            if (name == "moedas") {
+                moedas = value;
+                cout<<"Moedas:"<<moedas<<endl;
+            } else if (name == "instantes_entre_novos_itens") {
+                instantes_entre_novos_itens = value;
+                cout<<"Instante entre novos itens: "<<instantes_entre_novos_itens<<endl;
+            } else if (name == "duração_item") {
+                duração_item = value;
+                cout<<"Duracao item: "<<duração_item<<endl;
+            } else if (name == "max_itens") {
+                max_itens = value;
+                cout<<"Maximo de itens: "<<max_itens<<endl;
+            } else if (name == "preço_venda_mercadoria") {
+                preço_venda_mercadoria = value;
+                cout<<"Preco venda da mercadoria: "<<preço_venda_mercadoria<<endl;
+            } else if (name == "preço_compra_mercadoria") {
+                preço_compra_mercadoria = value;
+                cout<<"Preco compra da mercadoria: "<<preço_compra_mercadoria<<endl;
+            } else if (name == "preço_caravana") {
+                preço_caravana = value;
+                cout<<"Preco caravana: "<<preço_caravana<<endl;
+            } else if (name == "instantes_entre_novos_barbaros") {
+                instantes_entre_novos_barbaros = value;
+                cout<<"Instantes entre novos barbaros: "<<instantes_entre_novos_itens<<endl;
+            } else if (name == "duração_barbaros") {
+                duração_barbaros = value;
+                cout<<"Duracao de barbaros: "<<duração_barbaros<<endl;
+            }
+        }
+    }
 }
+

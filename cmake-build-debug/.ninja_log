@@ -1,9 +1,18 @@
 # ninja log v6
-4	316	7561751084172925	CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj	72305b963f92541f
-5	426	7561748486510148	CMakeFiles/TrabalhoPratico.dir/main.cpp.obj	a7861c6877de663e
-316	429	7561751087299083	TrabalhoPratico.exe	f579c6f5c0e048cf
-5	384	7561750207554964	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	210b480f53aa6745
 18	380	7561761743673987	CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj	72305b963f92541f
-31	404	7561761743806547	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	210b480f53aa6745
 7	406	7561761743564669	CMakeFiles/TrabalhoPratico.dir/main.cpp.obj	a7861c6877de663e
 406	511	7561761747554632	TrabalhoPratico.exe	f579c6f5c0e048cf
+31	404	7561761743806547	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	210b480f53aa6745
+19	356	7561769289439041	CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj	f98c2f4a16701ea2
+32	406	7561769289570294	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	7979b49e13ef912d
+7	419	7561769289322737	CMakeFiles/TrabalhoPratico.dir/main.cpp.obj	76c71cf3cd53754e
+419	532	7561769293444327	TrabalhoPratico.exe	f579c6f5c0e048cf
+6	427	7561774581110945	CMakeFiles/TrabalhoPratico.dir/main.cpp.obj	76c71cf3cd53754e
+18	443	7561774581232184	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	7979b49e13ef912d
+443	546	7561774585486392	TrabalhoPratico.exe	f579c6f5c0e048cf
+17	380	7561778668550900	CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj	f98c2f4a16701ea2
+5	412	7561778668430737	CMakeFiles/TrabalhoPratico.dir/main.cpp.obj	76c71cf3cd53754e
+25	428	7561778668633406	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	7979b49e13ef912d
+428	535	7561778672656930	TrabalhoPratico.exe	f579c6f5c0e048cf
+6	375	7561781256781867	CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj	7979b49e13ef912d
+375	489	7561781260474143	TrabalhoPratico.exe	f579c6f5c0e048cf

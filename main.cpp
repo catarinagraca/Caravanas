@@ -9,9 +9,6 @@ int main()
     string nome="mapa.txt";
     deserto.lerFicheiro(nome);
 
-    deserto.printDeserto();
-
-
 
     return 0;
 }
