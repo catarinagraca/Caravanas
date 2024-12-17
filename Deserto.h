@@ -1,0 +1,30 @@
+//
+// Created by catar on 17/12/2024.
+//
+
+#ifndef DESERTO_H
+#define DESERTO_H
+#include "Buffer.h"
+#include <fstream>
+
+
+class Deserto {
+private:
+    Buffer buffer;
+    int linhas, colunas;
+    int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
+    preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
+
+public:
+    Deserto(): buffer(){}
+
+    void lerFicheiro(string &nome);
+    void printDeserto();
+
+
+
+};
+
+
+
+#endif //DESERTO_H
