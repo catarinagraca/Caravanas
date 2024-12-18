@@ -4,7 +4,7 @@
 
 #ifndef CARAVANA_H
 #define CARAVANA_H
-
+#include "Cidade.h"
 
 
 class Caravana {
@@ -15,11 +15,20 @@ private:
     int agua;
     int mercadoriaMaxima;
     int tripulacaoMaxima;
+    position posicao;
+    char tipo;
 
     static int  idCaravana;//para incrementar
 
 public:
-    Caravana(int aguaa,int numTrip, int tripMax,int mercadoria,int mercMax);
+    Caravana(int aguaa,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo);
+    position getPos();
+    int getId();
+    char getTipo();
+    int getAgua();
+    int getMercadoriaAtual();
+    int getTripulacaoAtual();
+    void printCaravana();
 
 
 

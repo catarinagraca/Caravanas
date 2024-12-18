@@ -4,13 +4,12 @@
 
 #ifndef CARAVANASECRETA_H
 #define CARAVANASECRETA_H
+#include "../Caravana.h"
 
 
-
-class CaravanaSecreta {
-private:
-    int numero;
-
+class CaravanaSecreta :public Caravana{
+public:
+    CaravanaSecreta(position pos):Caravana(200,20,20,0,40,pos,'S'){};
 };
 
 

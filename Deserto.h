@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 
+#include "Caravana.h"
 #include "Cidade.h"
 
 
@@ -19,18 +20,23 @@ private:
     //int linhas, colunas;
     int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
     preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
-     vector <Cidade> cidades;
+    vector <Cidade> cidades;
+    vector<Caravana> caravanas;
 
 public:
     Deserto(): buffer(){}
 
     void lerFicheiro(string &nome);
-    bool lerComando(Deserto deserto, int &fase);
+    bool lerComando( int &fase);
     void procuraCidade();
     void adicionaCidade(char c,position pos);
     void printCidade();
     void listaPrecoMercadorias();
     void acrescentaMoedas(int N);
+    void procuraCaravana();
+    void adicionaCaravana(char c,position pos);
+
+    void procuraCaravanaComId(int id);
 
 };
 

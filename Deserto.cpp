@@ -5,6 +5,11 @@
 #include "Deserto.h"
 #include <iosfwd>
 #include <vector>
+
+#include "Caravanas/CaravanaComercio.h"
+#include "Caravanas/CaravanaMilitar.h"
+#include "Caravanas/CaravanaSecreta.h"
+#include "Caravana.h"
 using namespace std;
 
 void Deserto::lerFicheiro(string &nome) {
@@ -67,13 +72,15 @@ void Deserto::lerFicheiro(string &nome) {
             }
         }
     }
+    procuraCaravana();
+    procuraCidade();
 }
 
-bool Deserto::lerComando(Deserto deserto,int &fase) {
+bool Deserto::lerComando(int &fase) {
     string linha, comando;
     vector<string> argumentos;
 
-    cout<<"Insira comando:"<<endl;
+    cout<<"\nInsira comando:"<<endl;
 
     getline(cin,linha);
     istringstream iss(linha);
@@ -95,7 +102,7 @@ bool Deserto::lerComando(Deserto deserto,int &fase) {
                 cout<<"Falta segundo argumento (exemplo config <nomeFicheiro>)"<<endl;
                 return false;
             }
-            deserto.lerFicheiro(argumentos[0]);
+            lerFicheiro(argumentos[0]);
             fase=2;
             return true;
         }else if (comando == "sair") {
@@ -108,15 +115,57 @@ bool Deserto::lerComando(Deserto deserto,int &fase) {
         }
     }
     if (fase==2) {
+        if (comando == "precos") {
+            if (argumentos.size() != 0) {
+                cout<<"Argumentos a mais!"<<endl;
+                return false;
+            }
+            listaPrecoMercadorias();
+            return true;
+        }
+        else if (comando == "moedas"){
+            if (argumentos.size() != 1) {
+                cout<<"Falta segundo argumento (exemplo moedas <valor>)"<<endl;
+                return false;
+            }
+            acrescentaMoedas(stoi(argumentos[0]));
+            return true;
+        }
+        else if (comando== "caravana") {
+            if (argumentos.size() != 1) {
+                cout<<"Falta segundo argumento (exemplo caravana <idCaravana>)"<<endl;
+                return false;
+            }
+            procuraCaravanaComId(stoi(argumentos[0]));
+            return true;
 
+        }
     }
+
+
     return true;
 }
 
+void Deserto::listaPrecoMercadorias(){
+
+    cout << "Preco de venda de mercadoria: " << preço_venda_mercadoria << endl;
+    cout << "Preco de compra de mercadoria: " << preço_compra_mercadoria << endl;
+}
+
+void Deserto::acrescentaMoedas(int N){
+    moedas  += N;
+
+    if (moedas<=0) {
+        cout<<"Sem moedas!"<<endl;
+        moedas=0;
+    }
+
+    cout << "Moedas atualizadas: " << this->moedas << endl;
+}
 void Deserto::procuraCidade() {
     for (int i = 0; i < buffer.getlinhas(); i++) {
         for (int j = 0; j < buffer.getColunas(); j++) {
-            if (isalpha(buffer.getChar(i,j))) {  // Verifica se é uma letra
+            if (islower(buffer.getChar(i,j))) {  // Verifica se é uma letra
 
                 position posicao;
                 posicao.linha=i;
@@ -143,15 +192,47 @@ void Deserto::adicionaCidade(char c,position pos) {
     cidades.push_back(temp);
 }
 
-void Deserto::listaPrecoMercadorias(){
 
-    cout << "Preco de venda de mercadoria: " << preço_venda_mercadoria << endl;
-    cout << "Preco de compra de mercadoria: " << preço_compra_mercadoria << endl;
+
+void Deserto::procuraCaravana() {
+    for (int i = 0; i < buffer.getlinhas(); i++) {
+        for (int j = 0; j < buffer.getColunas(); j++) {
+            if (isdigit(buffer.getChar(i,j))) {  // Verifica se é uma letra
+
+                position posicao;
+                posicao.linha=i;
+                posicao.coluna=j;
+                //cout<<posicao.linha<<posicao.coluna<<endl;
+                adicionaCaravana('C',posicao);
+
+            }
+        }
+    }
+
 }
 
-void Deserto::acrescentaMoedas(int N){
-    moedas =  moedas + N;
-    cout << "Moedas atualizadas: " << moedas << endl;
+void Deserto::adicionaCaravana(char c,position pos) {
+    if (c == 'M') {
+        CaravanaMilitar temp=CaravanaMilitar(pos);
+        caravanas.push_back(temp);
+    }
+    if (c == 'C') {
+        CaravanaComercio temp=CaravanaComercio(pos);
+        caravanas.push_back(temp);
+    }
+    if (c == 'S') {
+        CaravanaSecreta temp= CaravanaSecreta(pos);
+        caravanas.push_back(temp);
+    }
+
 }
 
 
+void Deserto::procuraCaravanaComId(int id) {
+    for (auto caravana: caravanas) {
+        if (caravana.getId()==id)
+            caravana.printCaravana();
+
+    }
+
+}

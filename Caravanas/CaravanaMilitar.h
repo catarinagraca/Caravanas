@@ -9,7 +9,7 @@
 
 class CaravanaMilitar :public Caravana{
 public:
-    CaravanaMilitar():Caravana(400,40,40,0,5){};
+    CaravanaMilitar(position pos):Caravana(400,40,40,0,5,pos,'M'){};
 
 };
 
