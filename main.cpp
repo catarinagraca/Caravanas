@@ -11,6 +11,7 @@ int main()
     string nome="mapa.txt";
     deserto.lerFicheiro(nome);
 
+
    /*while (fase) {
        deserto.lerComando(deserto, fase);
    } */
@@ -19,6 +20,15 @@ int main()
     deserto.printCidade();
     deserto.listaPrecoMercadorias();
     deserto.acrescentaMoedas(0);
+
+    /*while (fase) {
+        deserto.lerComando(deserto,fase);
+        //cout<<fase<<endl;
+    }*/
+
+    //deserto.procuraCidade();
+    //deserto.printCidade();
+
 
     return 0;
 }
