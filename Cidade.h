@@ -6,9 +6,10 @@
 #define CIDADE_H
 #include <string>
 
-#include "Deserto.h"
 using namespace std;
-
+struct position {
+    int linha, coluna;
+}typedef position;
 
 class Cidade {
 private:
@@ -19,6 +20,8 @@ private:
 
 public:
     Cidade(char c,position pos):nome(c), posicao(pos){}
+    char getChar() const;
+    position getPos() ;
 
 
 

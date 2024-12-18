@@ -7,11 +7,11 @@
 #include "Buffer.h"
 #include <fstream>
 #include <map>
+#include <vector>
+
+#include "Cidade.h"
 
 
-struct position {
-    int linha, coluna;
-}typedef position;
 
 class Deserto {
 private:
@@ -19,7 +19,7 @@ private:
     //int linhas, colunas;
     int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
     preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
-    map<char,position> cidades;
+     vector <Cidade> cidades;
 
 public:
     Deserto(): buffer(){}
@@ -27,6 +27,7 @@ public:
     void lerFicheiro(string &nome);
     bool lerComando(Deserto deserto, int &fase);
     void procuraCidade();
+    void adicionaCidade(char c,position pos);
     void printCidade();
 
 

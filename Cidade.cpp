@@ -3,3 +3,11 @@
 //
 
 #include "Cidade.h"
+
+char Cidade::getChar() const{
+    return this->nome;
+}
+
+position Cidade::getPos() {
+    return this->posicao;
+}

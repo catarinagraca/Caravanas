@@ -116,13 +116,14 @@ bool Deserto::lerComando(Deserto deserto,int &fase) {
 void Deserto::procuraCidade() {
     for (int i = 0; i < buffer.getlinhas(); i++) {
         for (int j = 0; j < buffer.getColunas(); j++) {
-            cout<<"lol"<<endl;
             if (isalpha(buffer.getChar(i,j))) {  // Verifica se é uma letra
 
                 position posicao;
                 posicao.linha=i;
                 posicao.coluna=j;
-                cidades.insert(make_pair(buffer.getChar(i,j),posicao)); // Armazena a posição e letra
+
+                adicionaCidade(buffer.getChar(i,j),posicao);
+                //cidades.insert(make_pair(buffer.getChar(i,j),posicao)); // Armazena a posição e letra
             }
         }
     }
@@ -131,7 +132,15 @@ void Deserto::procuraCidade() {
 
 void Deserto::printCidade() {
     for (auto cidade:cidades) {
-        cout<<"Cidade "<<cidade.first<<" posicao, linha:"<<cidade.second.linha<<" ,coluna:"<<cidade.second.coluna<<endl;
+        position pos=cidade.getPos();
+        cout<<"Cidade "<<cidade.getChar()<<" posicao, linha:"<<pos.linha<<" ,coluna:"<<pos.coluna<<endl;
     }
+
+}
+
+void Deserto::adicionaCidade(char c,position pos) {
+
+    Cidade temp=Cidade(c,pos);
+    cidades.push_back(temp);
 
 }
