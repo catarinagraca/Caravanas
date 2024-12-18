@@ -25,7 +25,7 @@ void Deserto::lerFicheiro(string &nome) {
     for (int i=0;i<=linhas;i++) {
         getline(file,linhaLida);
         for (int j=0;j<colunas;j++) {
-            buffer.setChar(i,j,linhaLida[j]);
+            buffer.setChar(i-1,j,linhaLida[j]);
         }
     }
     buffer.render();
