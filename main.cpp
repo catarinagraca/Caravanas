@@ -19,7 +19,8 @@ int main()
     deserto.procuraCidade();
     deserto.printCidade();
     deserto.listaPrecoMercadorias();
-    deserto.acrescentaMoedas(0);
+    deserto.acrescentaMoedas(100);
+    deserto.acrescentaMoedas(-210);
 
     /*while (fase) {
         deserto.lerComando(deserto,fase);
