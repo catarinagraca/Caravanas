@@ -16,4 +16,6 @@ add_executable(TrabalhoPratico main.cpp
         Caravanas/CaravanaComercio.cpp
         Caravanas/CaravanaComercio.h
         Caravanas/CaravanaSecreta.cpp
-        Caravanas/CaravanaSecreta.h)
+        Caravanas/CaravanaSecreta.h
+        Caravana.cpp
+        Caravana.h)
