@@ -25,7 +25,7 @@ void Deserto::lerFicheiro(string &nome) {
     for (int i=0;i<=linhas;i++) {
         getline(file,linhaLida);
         for (int j=0;j<colunas;j++) {
-            buffer.setChar(i,j,linhaLida[j]);
+            buffer.setChar(i-1,j,linhaLida[j]);
         }
     }
     buffer.render();
@@ -139,8 +139,19 @@ void Deserto::printCidade() {
 }
 
 void Deserto::adicionaCidade(char c,position pos) {
-
     Cidade temp=Cidade(c,pos);
     cidades.push_back(temp);
-
 }
+
+void Deserto::listaPrecoMercadorias(){
+
+    cout << "Preco de venda de mercadoria: " << preço_venda_mercadoria << endl;
+    cout << "Preco de compra de mercadoria: " << preço_compra_mercadoria << endl;
+}
+
+void Deserto::acrescentaMoedas(int N){
+    moedas =  moedas + N;
+    cout << "Moedas atualizadas: " << moedas << endl;
+}
+
+

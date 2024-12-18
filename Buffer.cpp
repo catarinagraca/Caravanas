@@ -22,7 +22,7 @@ char Buffer::getChar(int row, int col) const {
 
 // Renderiza o conteúdo do buffer no terminal
 void Buffer::render() const {
-      for (int i = 0; i <= linha; ++i) {
+      for (int i = 0; i < linha; ++i) {
           for (int j = 0; j < coluna; ++j) {
               cout << mapa[i][j];  // Exibe cada caractere
           }

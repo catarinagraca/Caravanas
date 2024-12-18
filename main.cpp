@@ -11,11 +11,14 @@ int main()
     string nome="mapa.txt";
     deserto.lerFicheiro(nome);
 
-   /* while (fase) {
-        deserto.lerComando(deserto,fase);
-    }*/
+   /*while (fase) {
+       deserto.lerComando(deserto, fase);
+   } */
+
     deserto.procuraCidade();
     deserto.printCidade();
+    deserto.listaPrecoMercadorias();
+    deserto.acrescentaMoedas(0);
 
     return 0;
 }

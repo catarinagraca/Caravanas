@@ -21,7 +21,8 @@ private:
 public:
     Cidade(char c,position pos):nome(c), posicao(pos){}
     char getChar() const;
-    position getPos() ;
+    position getPos();
+
 
 
 

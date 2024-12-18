@@ -9,7 +9,7 @@
 					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.28"
+						"string" : "3.27"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/catar/Desktop/uni/2ano/pratica/poo/TrabalhoPratico/Caravanas/cmake-build-debug",
-		"source" : "C:/Users/catar/Desktop/uni/2ano/pratica/poo/TrabalhoPratico/Caravanas"
+		"build" : "C:/Users/User/OneDrive/Documentos/GitHub/Caravanas/cmake-build-debug",
+		"source" : "C:/Users/User/OneDrive/Documentos/GitHub/Caravanas"
 	},
 	"version" : 
 	{
