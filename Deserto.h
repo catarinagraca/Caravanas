@@ -29,7 +29,8 @@ public:
     void procuraCidade();
     void adicionaCidade(char c,position pos);
     void printCidade();
-
+    void listaPrecoMercadorias();
+    void acrescentaMoedas(int N);
 
 };
 
