@@ -4,10 +4,12 @@
 
 #ifndef CARAVANAMILITAR_H
 #define CARAVANAMILITAR_H
+#include "../Caravana.h"
 
 
-
-class CaravanaMilitar {
+class CaravanaMilitar :public Caravana{
+public:
+    CaravanaMilitar():Caravana(400,40,40,0,5){};
 
 };
 

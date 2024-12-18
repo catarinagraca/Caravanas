@@ -4,10 +4,15 @@
 
 #ifndef CARAVANACOMERCIO_H
 #define CARAVANACOMERCIO_H
+#include "../Caravana.h"
 
 
+class CaravanaComercio :public Caravana{
 
-class CaravanaComercio {
+public:
+CaravanaComercio():Caravana(200,20,20,0,40){};
+
+
 
 };
 
