@@ -112,3 +112,26 @@ bool Deserto::lerComando(Deserto deserto,int &fase) {
     }
     return true;
 }
+
+void Deserto::procuraCidade() {
+    for (int i = 0; i < buffer.getlinhas(); i++) {
+        for (int j = 0; j < buffer.getColunas(); j++) {
+            cout<<"lol"<<endl;
+            if (isalpha(buffer.getChar(i,j))) {  // Verifica se é uma letra
+
+                position posicao;
+                posicao.linha=i;
+                posicao.coluna=j;
+                cidades.insert(make_pair(buffer.getChar(i,j),posicao)); // Armazena a posição e letra
+            }
+        }
+    }
+
+}
+
+void Deserto::printCidade() {
+    for (auto cidade:cidades) {
+        cout<<"Cidade "<<cidade.first<<" posicao, linha:"<<cidade.second.linha<<" ,coluna:"<<cidade.second.coluna<<endl;
+    }
+
+}

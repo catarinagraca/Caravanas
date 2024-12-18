@@ -25,7 +25,9 @@ public:
     void setDimensions(int linhas, int colunas);
     void setChar(int row, int col, char c);
     void render() const;
-
+    char getChar(int row, int col) const;
+    int getlinhas();
+    int getColunas();
 
 
 };

@@ -16,6 +16,10 @@ void Buffer::setChar(int row, int col, char c) {
       }
   }
 
+char Buffer::getChar(int row, int col) const {
+      return mapa[row][col];
+  }
+
 // Renderiza o conteúdo do buffer no terminal
 void Buffer::render() const {
       for (int i = 0; i <= linha; ++i) {
@@ -25,3 +29,11 @@ void Buffer::render() const {
           cout << '\n';
       }
   }
+
+
+int Buffer::getlinhas() {
+    return linha;
+}
+ int Buffer::getColunas() {
+     return coluna;
+ }

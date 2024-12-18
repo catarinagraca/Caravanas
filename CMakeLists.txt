@@ -7,4 +7,7 @@ add_executable(TrabalhoPratico main.cpp
         Buffer.cpp
         Buffer.h
         Deserto.cpp
-        Deserto.h)
+        Deserto.h
+        Cidade.cpp
+        Cidade.h
+        Cidade.h)

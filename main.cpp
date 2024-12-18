@@ -9,11 +9,13 @@ int main()
     int fase=1;
     Deserto deserto;
     string nome="mapa.txt";
-    //deserto.lerFicheiro(nome);
+    deserto.lerFicheiro(nome);
 
-    while (fase) {
+   /* while (fase) {
         deserto.lerComando(deserto,fase);
-    }
+    }*/
+    deserto.procuraCidade();
+    deserto.printCidade();
 
     return 0;
 }
