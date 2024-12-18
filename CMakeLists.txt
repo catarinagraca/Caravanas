@@ -10,4 +10,10 @@ add_executable(TrabalhoPratico main.cpp
         Deserto.h
         Cidade.cpp
         Cidade.h
-        Cidade.h)
+        Cidade.h
+        Caravanas/CaravanaMilitar.cpp
+        Caravanas/CaravanaMilitar.h
+        Caravanas/CaravanaComercio.cpp
+        Caravanas/CaravanaComercio.h
+        Caravanas/CaravanaSecreta.cpp
+        Caravanas/CaravanaSecreta.h)

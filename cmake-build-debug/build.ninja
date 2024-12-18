@@ -73,6 +73,24 @@ build CMakeFiles/TrabalhoPratico.dir/Cidade.cpp.obj: CXX_COMPILER__TrabalhoPrati
   OBJECT_DIR = CMakeFiles\TrabalhoPratico.dir
   OBJECT_FILE_DIR = CMakeFiles\TrabalhoPratico.dir
 
+build CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaMilitar.cpp.obj: CXX_COMPILER__TrabalhoPratico_unscanned_Debug C$:/Users/catar/Desktop/uni/2ano/pratica/poo/TrabalhoPratico/Caravanas/Caravanas/CaravanaMilitar.cpp || cmake_object_order_depends_target_TrabalhoPratico
+  DEP_FILE = CMakeFiles\TrabalhoPratico.dir\Caravanas\CaravanaMilitar.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TrabalhoPratico.dir
+  OBJECT_FILE_DIR = CMakeFiles\TrabalhoPratico.dir\Caravanas
+
+build CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaComercio.cpp.obj: CXX_COMPILER__TrabalhoPratico_unscanned_Debug C$:/Users/catar/Desktop/uni/2ano/pratica/poo/TrabalhoPratico/Caravanas/Caravanas/CaravanaComercio.cpp || cmake_object_order_depends_target_TrabalhoPratico
+  DEP_FILE = CMakeFiles\TrabalhoPratico.dir\Caravanas\CaravanaComercio.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TrabalhoPratico.dir
+  OBJECT_FILE_DIR = CMakeFiles\TrabalhoPratico.dir\Caravanas
+
+build CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaSecreta.cpp.obj: CXX_COMPILER__TrabalhoPratico_unscanned_Debug C$:/Users/catar/Desktop/uni/2ano/pratica/poo/TrabalhoPratico/Caravanas/Caravanas/CaravanaSecreta.cpp || cmake_object_order_depends_target_TrabalhoPratico
+  DEP_FILE = CMakeFiles\TrabalhoPratico.dir\Caravanas\CaravanaSecreta.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TrabalhoPratico.dir
+  OBJECT_FILE_DIR = CMakeFiles\TrabalhoPratico.dir\Caravanas
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TrabalhoPratico
@@ -81,7 +99,7 @@ build CMakeFiles/TrabalhoPratico.dir/Cidade.cpp.obj: CXX_COMPILER__TrabalhoPrati
 #############################################
 # Link the executable TrabalhoPratico.exe
 
-build TrabalhoPratico.exe: CXX_EXECUTABLE_LINKER__TrabalhoPratico_Debug CMakeFiles/TrabalhoPratico.dir/main.cpp.obj CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj CMakeFiles/TrabalhoPratico.dir/Cidade.cpp.obj
+build TrabalhoPratico.exe: CXX_EXECUTABLE_LINKER__TrabalhoPratico_Debug CMakeFiles/TrabalhoPratico.dir/main.cpp.obj CMakeFiles/TrabalhoPratico.dir/Buffer.cpp.obj CMakeFiles/TrabalhoPratico.dir/Deserto.cpp.obj CMakeFiles/TrabalhoPratico.dir/Cidade.cpp.obj CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaMilitar.cpp.obj CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaComercio.cpp.obj CMakeFiles/TrabalhoPratico.dir/Caravanas/CaravanaSecreta.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TrabalhoPratico.dir
