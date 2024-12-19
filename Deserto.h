@@ -35,8 +35,9 @@ public:
     void acrescentaMoedas(int N);
     void procuraCaravana();
     void adicionaCaravana(char c,position pos);
-
     void procuraCaravanaComId(int id);
+    void compraCaravana();
+
 
 };
 

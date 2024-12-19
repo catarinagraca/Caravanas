@@ -224,7 +224,6 @@ void Deserto::adicionaCaravana(char c,position pos) {
         CaravanaSecreta temp= CaravanaSecreta(pos);
         caravanas.push_back(temp);
     }
-
 }
 
 
@@ -232,7 +231,12 @@ void Deserto::procuraCaravanaComId(int id) {
     for (auto caravana: caravanas) {
         if (caravana.getId()==id)
             caravana.printCaravana();
-
     }
+}
+
+void Deserto::compraCaravana() {
 
 }
+
+
+
