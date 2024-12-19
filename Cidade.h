@@ -30,7 +30,7 @@ public:
     char getChar() const;
     position getPos();
     void conteudoCidade();
-    void compraCaravana(char tipo);
+    bool compraCaravana(char tipo);
 
 
 

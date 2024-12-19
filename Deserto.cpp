@@ -144,7 +144,7 @@ bool Deserto::lerComando(int &fase) {
                 cout<<"Falta segundo argumento (exemplo cidade <letraCidade>)"<<endl;
                 return false;
             }
-            listaCidade(argumentos[0][0], cidades); //tenho q acedersó há primeira posição pq é uma string
+            listaCidade(argumentos[0][0]/*, cidades*/); //tenho q acedersó há primeira posição pq é uma string
             return true;
 
         }
@@ -195,14 +195,6 @@ void Deserto::procuraCidadeeAdicionaBuffer() {
 
 }
 
-void Deserto::printCidade() {
-    for (auto cidade:cidades) {
-        position pos=cidade.getPos();
-        cout<<"Cidade "<<cidade.getChar()<<" posicao, linha:"<<pos.linha<<" ,coluna:"<<pos.coluna<<endl;
-    }
-
-}
-
 void Deserto::adicionaCidade(char c,position pos) {
     Cidade temp=Cidade(c,pos);
     cidades.push_back(temp);
@@ -235,6 +227,7 @@ void Deserto::adicionaCaravana(char c,position pos) {
     if (c == 'C') {
         CaravanaComercio temp=CaravanaComercio(pos);
         caravanas.push_back(temp);
+
     }
     if (c == 'S') {
         CaravanaSecreta temp= CaravanaSecreta(pos);
@@ -253,22 +246,50 @@ void Deserto::procuraCaravanaComId(int id) {
 void Deserto::compraCaravana(char c, char tipo) {
     for (auto &cidade: cidades) {
         if(cidade.getChar() == c) {
-            cidade.compraCaravana(tipo);
-        }
+            if(cidade.compraCaravana(tipo)) {
+                adicionaCaravana(toupper(tipo),cidade.getPos());
 
+            }
+
+        }
     }
 
 }
 
-void Deserto::listaCidade(char c,vector<Cidade>& cidades) {
+void Deserto::listaCidade(char c/*,vector<Cidade>& cidades*/) {
     for (auto cidade: cidades) {
         if (c==cidade.getChar()) {
             cidade.conteudoCidade();
         }
 
     }
+    for (auto caravana: caravanas) {
+        if (verificaCoordenadas(c,caravana.getId())) {
+            caravana.printCaravana();
+        }
+    }
 
 }
 
+bool Deserto::verificaCoordenadas(char c,int id) const {
+    position posCidade,posCaravana;
+    for (auto cidade: cidades) {
+        if(cidade.getChar()==c ) {
+            posCidade=cidade.getPos();
+
+        }
+    }
+    for (auto caravana: caravanas) {
+        if(caravana.getId()==id ) {
+            posCaravana=caravana.getPos();
+
+        }
+    }
+
+    if (posCaravana.coluna==posCidade.coluna && posCaravana.linha==posCidade.linha) {
+        return true;
+    }
+    return false;
+}
 
 

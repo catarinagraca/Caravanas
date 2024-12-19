@@ -37,7 +37,9 @@ public:
     void adicionaCaravana(char c,position pos);
     void procuraCaravanaComId(int id);
     void compraCaravana(char c,char tipo);
-    void listaCidade(char c,vector<Cidade>& cidades);
+    void listaCidade(char c/*,vector<Cidade>& cidades*/);
+    bool verificaCoordenadas(char cidade,int id) const;
+
 
 
 };

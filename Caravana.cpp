@@ -50,9 +50,10 @@ int Caravana::getTripulacaoAtual() {
 }
 
 void Caravana::printCaravana() {
-        cout<<"\nCaravana "<<id<<" do tipo "<<tipo<<endl;
+        cout<<"->Caravana "<<id<<" do tipo "<<tipo<<endl;
         cout <<"Posicao, linha:"<<posicao.linha<<" ,coluna:"<<posicao.coluna<<endl;
         cout<<"Atributos: capacidade de agua "<<agua<<" ,tripulacao atual:"<<numTripulantes<<" ,mercadoria atual:"<<numMercadoria<<"toneladas."<<endl;
+        cout<<endl;
     }
 
 

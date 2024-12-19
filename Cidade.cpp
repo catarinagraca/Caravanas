@@ -19,29 +19,30 @@ position Cidade::getPos() {
 
 void Cidade::conteudoCidade() {
     cout<<"Caravanas para Compra: "<<endl;
-    int i=1;
+
     for (auto caravana: caravanasParaCompra) {
         if (caravana.second == 0)
-        cout<<i<<"- Tipo: "<<caravana.first<<endl;
-        i++;
+        cout<<"- Tipo: "<<caravana.first<<endl;
+       
     }
-    // cout<<"Caravanas estacionadas: "<<endl;
+     cout<<"\nCaravanas estacionadas: "<<endl;
     // for (auto caravana: caravanasEstacionadas) {
     //     cout<<caravana.second.getAgua();
     // }
 }
 
-void Cidade::compraCaravana(char tipo) {
+bool Cidade::compraCaravana(char tipo) {
     for (auto &caravana: caravanasParaCompra){
         if (caravana.second == 0) {
             if(caravana.first==toupper(tipo)) {
 
                 caravana.second=1;
-                return;
+                return true;
                 //caravanasParaCompra.erase(caravana.first);
             }
         }
     }
     cout<<"A caravana ja nao esta disponivel"<<endl;
+    return false;
 
 }
