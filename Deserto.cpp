@@ -73,7 +73,7 @@ void Deserto::lerFicheiro(string &nome) {
         }
     }
     procuraCaravana();
-    procuraCidade();
+    procuraCidadeeAdicionaBuffer();
 }
 
 bool Deserto::lerComando(int &fase) {
@@ -138,7 +138,23 @@ bool Deserto::lerComando(int &fase) {
             }
             procuraCaravanaComId(stoi(argumentos[0]));
             return true;
+        }
+        else if (comando== "cidade") {
+            if (argumentos.size() != 1) {
+                cout<<"Falta segundo argumento (exemplo cidade <letraCidade>)"<<endl;
+                return false;
+            }
+            listaCidade(argumentos[0][0], cidades); //tenho q acedersó há primeira posição pq é uma string
+            return true;
 
+        }
+        else if (comando == "comprac") {
+            if (argumentos.size() != 2) {
+                cout<<"Falta argumentos (exemplo comprac <letraCidade> <tipoCaravana>)"<<endl;
+                return false;
+            }
+            compraCaravana(argumentos[0][0],argumentos[1][0]); //tenho q acedersó há primeira posição pq é uma string
+            return true;
         }
     }
 
@@ -162,7 +178,7 @@ void Deserto::acrescentaMoedas(int N){
 
     cout << "Moedas atualizadas: " << this->moedas << endl;
 }
-void Deserto::procuraCidade() {
+void Deserto::procuraCidadeeAdicionaBuffer() {
     for (int i = 0; i < buffer.getlinhas(); i++) {
         for (int j = 0; j < buffer.getColunas(); j++) {
             if (islower(buffer.getChar(i,j))) {  // Verifica se é uma letra
@@ -234,7 +250,23 @@ void Deserto::procuraCaravanaComId(int id) {
     }
 }
 
-void Deserto::compraCaravana() {
+void Deserto::compraCaravana(char c, char tipo) {
+    for (auto &cidade: cidades) {
+        if(cidade.getChar() == c) {
+            cidade.compraCaravana(tipo);
+        }
+
+    }
+
+}
+
+void Deserto::listaCidade(char c,vector<Cidade>& cidades) {
+    for (auto cidade: cidades) {
+        if (c==cidade.getChar()) {
+            cidade.conteudoCidade();
+        }
+
+    }
 
 }
 

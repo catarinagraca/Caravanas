@@ -7,6 +7,7 @@
 #include <map>
 #include <string>
 
+
 using namespace std;
 struct position {
     int linha, coluna;
@@ -18,7 +19,7 @@ private:
     char nome;
     int numCaravanasExistentes;
     int caravanasDisponiveisParaVenda;
-    map<int,bool> caravanasEstacionadas; //id de caravanas
+    //map<int,Caravana> caravanasEstacionadas; //id de caravanas
     map<char,int> caravanasParaCompra;  //int = 1, vendida
 
 public:
@@ -29,6 +30,7 @@ public:
     char getChar() const;
     position getPos();
     void conteudoCidade();
+    void compraCaravana(char tipo);
 
 
 

@@ -28,7 +28,7 @@ public:
 
     void lerFicheiro(string &nome);
     bool lerComando( int &fase);
-    void procuraCidade();
+    void procuraCidadeeAdicionaBuffer();
     void adicionaCidade(char c,position pos);
     void printCidade();
     void listaPrecoMercadorias();
@@ -36,7 +36,8 @@ public:
     void procuraCaravana();
     void adicionaCaravana(char c,position pos);
     void procuraCaravanaComId(int id);
-    void compraCaravana();
+    void compraCaravana(char c,char tipo);
+    void listaCidade(char c,vector<Cidade>& cidades);
 
 
 };
