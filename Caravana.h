@@ -36,6 +36,7 @@ public:
     int getTripulacaoMaxima() ;
     int adicionaTripulacao(int trip);
     int reabasteceAgua();
+    void setPos(position pos);
 
 
 

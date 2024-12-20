@@ -11,7 +11,7 @@
 
 #include "Caravana.h"
 #include "Cidade.h"
-
+#include "Montanhas.h"
 
 
 class Deserto {
@@ -22,6 +22,7 @@ private:
     preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
     vector <Cidade> cidades;
     vector<Caravana> caravanas;
+    vector<Montanhas> montanhas;
 
 public:
     Deserto(): buffer(){}
@@ -43,6 +44,11 @@ public:
     void vendeMercadoria(int id);
     void compraTripulantes(int numTripulantes,int id);
     void atualizaAgua(int id) /*const*/;
+    void procuraMontanha();
+    void adicionaMontanha(position pos);
+    void moveCaravana(int id, char direcao);
+    void atualizaBuffer();
+    bool verificaMovimento(int linha,int coluna);   //true movimento válido
 
 
 

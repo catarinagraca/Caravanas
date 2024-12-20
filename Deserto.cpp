@@ -74,6 +74,7 @@ void Deserto::lerFicheiro(string &nome) {
     }
     procuraCaravana();
     procuraCidadeeAdicionaBuffer();
+    procuraMontanha();
 }
 
 bool Deserto::lerComando(int &fase) {
@@ -178,7 +179,16 @@ bool Deserto::lerComando(int &fase) {
                 cout<<"Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)"<<endl;
                 return false;
             }
-            compraTripulantes((stoi(argumentos[0])),stoi(argumentos[1]));
+            compraTripulantes((stoi(argumentos[0])),stoi(argumentos[1]));       //stoi transforma char em int
+            return true;
+        }
+        else if (comando == "move") {
+            if (argumentos.size() != 2) {
+                cout<<"Falta argumentos (exemplo move <idCaravana> <direcao>)"<<endl;
+                return false;
+            }
+            moveCaravana((stoi(argumentos[0])),toupper(argumentos[1][0]));
+            buffer.render();
             return true;
         }
     }
@@ -225,6 +235,26 @@ void Deserto::adicionaCidade(char c,position pos) {
     cidades.push_back(temp);
 }
 
+void Deserto::procuraMontanha() {
+    for (int i = 0; i < buffer.getlinhas(); i++) {
+        for (int j = 0; j < buffer.getColunas(); j++) {
+            if (buffer.getChar(i,j) == '+'){
+                position posicao;
+                posicao.linha=i;
+                posicao.coluna=j;
+
+                adicionaMontanha(posicao);
+
+            }
+        }
+    }
+}
+void Deserto::adicionaMontanha(position pos) {
+    Montanhas temp=Montanhas(pos);
+    montanhas.push_back(temp);
+    // cout<<"linha"<<pos.linha<<", coluna"<<pos.coluna<<endl;
+
+}
 
 
 void Deserto::procuraCaravana() {
@@ -404,3 +434,73 @@ void Deserto::atualizaAgua(int id) /*const*/ {
         }
     }
 }
+
+void Deserto::moveCaravana(int id, char direcao) {
+    for (auto &caravana : caravanas) {
+        if (caravana.getId() == id) {
+            position posAtual = caravana.getPos(); // Obtém a posição atual da caravana
+            position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
+
+            // Calcula o movimento com base na direção fornecida
+            if (direcao == 'D') novaPos.coluna += 1; // Direita
+            else if (direcao == 'E') novaPos.coluna -= 1; // Esquerda
+            else if (direcao == 'C') novaPos.linha -= 1; // Cima
+            else if (direcao == 'B') novaPos.linha += 1; // Baixo
+            // else if (direcao == 'CE') { novaPos.linha -= 1; novaPos.coluna -= 1; } // Cima-Esquerda
+            // else if (direcao == 'CD') { novaPos.linha -= 1; novaPos.coluna += 1; } // Cima-Direita
+            // else if (direcao == 'BE') { novaPos.linha += 1; novaPos.coluna -= 1; } // Baixo-Esquerda
+            // else if (direcao == 'BD') { novaPos.linha += 1; novaPos.coluna += 1; } // Baixo-Direita
+            else {
+                cout << "Direção inválida!" << endl;
+                return;
+            }
+
+            // Verifica se o movimento é válido
+            if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
+                caravana.setPos(novaPos); // Atualiza a posição da caravana
+                atualizaBuffer();
+                cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
+            } else {
+                cout << "Movimento invalido!" << endl;
+            }
+            return;
+        }
+    }
+
+    cout << "Caravana com ID " << id << " não encontrada!" << endl;
+}
+
+
+
+
+void Deserto::atualizaBuffer() {
+     buffer.clearBuffer();
+    for (auto montanha: montanhas) {
+        buffer.setChar(montanha.getPos().linha,montanha.getPos().coluna,'+');
+    }
+    for (auto caravana: caravanas) {
+        buffer.setChar(caravana.getPos().linha,caravana.getPos().coluna,'0'+caravana.getId());
+    }
+    for (auto cidade: cidades) {
+        buffer.setChar(cidade.getPos().linha,cidade.getPos().coluna,cidade.getChar());
+    }
+
+
+
+}
+ bool Deserto::verificaMovimento(int linha, int coluna) {
+     if (linha<0 || coluna> buffer.getColunas()||coluna<0||linha>=buffer.getlinhas()) {
+         return false;
+     }
+     for (auto montanha: montanhas) {
+         if(montanha.getPos().linha==linha && montanha.getPos().coluna==coluna) return false;
+
+     }
+     for (auto caravana: caravanas) {
+         if (caravana.getPos().linha == linha && caravana.getPos().coluna == coluna) return false;
+
+     }
+    return true;
+
+ }
+

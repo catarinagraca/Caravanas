@@ -78,3 +78,8 @@ int Caravana::adicionaTripulacao(int trip) {
 int Caravana::reabasteceAgua() {
     return agua=capacidadeAgua;
 }
+
+void Caravana::setPos(position pos) {
+    posicao=pos;
+
+}

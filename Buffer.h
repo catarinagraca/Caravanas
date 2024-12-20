@@ -11,12 +11,13 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
 class Buffer {
 private:
-    char mapa[100][100];
+    vector<char>mapa;
     int linha, coluna;
 public:
 
@@ -28,6 +29,7 @@ public:
     char getChar(int row, int col) const;
     int getlinhas();
     int getColunas();
+    void clearBuffer();
 
 
 };
