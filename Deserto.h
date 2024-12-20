@@ -46,10 +46,10 @@ public:
     void atualizaAgua(int id) /*const*/;
     void procuraMontanha();
     void adicionaMontanha(position pos);
-    void moveCaravana(int id, char direcao);
+    void moveCaravana(int id, string direcao);
     void atualizaBuffer();
     bool verificaMovimento(int linha,int coluna);   //true movimento válido
-
+    void pontuacao();
 
 
 };

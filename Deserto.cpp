@@ -187,9 +187,12 @@ bool Deserto::lerComando(int &fase) {
                 cout<<"Falta argumentos (exemplo move <idCaravana> <direcao>)"<<endl;
                 return false;
             }
-            moveCaravana((stoi(argumentos[0])),toupper(argumentos[1][0]));
+            moveCaravana((stoi(argumentos[0])),argumentos[1]);
             buffer.render();
             return true;
+        }else if (comando == "terminar") {
+            pontuacao();
+            fase=1;
         }
     }
 
@@ -435,21 +438,21 @@ void Deserto::atualizaAgua(int id) /*const*/ {
     }
 }
 
-void Deserto::moveCaravana(int id, char direcao) {
+void Deserto::moveCaravana(int id, string direcao) {
     for (auto &caravana : caravanas) {
         if (caravana.getId() == id) {
             position posAtual = caravana.getPos(); // Obtém a posição atual da caravana
             position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
 
             // Calcula o movimento com base na direção fornecida
-            if (direcao == 'D') novaPos.coluna += 1; // Direita
-            else if (direcao == 'E') novaPos.coluna -= 1; // Esquerda
-            else if (direcao == 'C') novaPos.linha -= 1; // Cima
-            else if (direcao == 'B') novaPos.linha += 1; // Baixo
-            // else if (direcao == 'CE') { novaPos.linha -= 1; novaPos.coluna -= 1; } // Cima-Esquerda
-            // else if (direcao == 'CD') { novaPos.linha -= 1; novaPos.coluna += 1; } // Cima-Direita
-            // else if (direcao == 'BE') { novaPos.linha += 1; novaPos.coluna -= 1; } // Baixo-Esquerda
-            // else if (direcao == 'BD') { novaPos.linha += 1; novaPos.coluna += 1; } // Baixo-Direita
+            if (direcao == "D") novaPos.coluna += 1; // Direita
+            else if (direcao == "E") novaPos.coluna -= 1; // Esquerda
+            else if (direcao == "C") novaPos.linha -= 1; // Cima
+            else if (direcao == "B") novaPos.linha += 1; // Baixo
+            else if (direcao == "CE") { novaPos.linha -= 1; novaPos.coluna -= 1; } // Cima-Esquerda
+            else if (direcao == "CD") { novaPos.linha -= 1; novaPos.coluna += 1; } // Cima-Direita
+            else if (direcao == "BE") { novaPos.linha += 1; novaPos.coluna -= 1; } // Baixo-Esquerda
+            else if (direcao == "BD") { novaPos.linha += 1; novaPos.coluna += 1; } // Baixo-Direita
             else {
                 cout << "Direção inválida!" << endl;
                 return;
@@ -503,4 +506,10 @@ void Deserto::atualizaBuffer() {
     return true;
 
  }
+
+void Deserto::pontuacao() {
+    cout<<"pontuacao final:"<<endl;
+    cout<<"Regresso a fase 1";
+}
+
 
