@@ -56,4 +56,10 @@ void Caravana::printCaravana() {
         cout<<endl;
     }
 
+int Caravana::getMercadoriaMaxima() {
+    return mercadoriaMaxima;
+}
+int Caravana::adicionaMercadoria(int toneladas) {
+    return numMercadoria= toneladas+numMercadoria;
+}
 

@@ -29,6 +29,8 @@ public:
     int getMercadoriaAtual();
     int getTripulacaoAtual();
     void printCaravana();
+    int getMercadoriaMaxima();
+    int adicionaMercadoria(int toneladas);
 
 
 

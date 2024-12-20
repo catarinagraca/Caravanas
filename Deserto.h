@@ -30,15 +30,18 @@ public:
     bool lerComando( int &fase);
     void procuraCidadeeAdicionaBuffer();
     void adicionaCidade(char c,position pos);
-    void printCidade();
     void listaPrecoMercadorias();
     void acrescentaMoedas(int N);
     void procuraCaravana();
     void adicionaCaravana(char c,position pos);
     void procuraCaravanaComId(int id);
     void compraCaravana(char c,char tipo);
-    void listaCidade(char c/*,vector<Cidade>& cidades*/);
+    void listaCidade(char c);
     bool verificaCoordenadas(char cidade,int id) const;
+    void compraMercadoria(int id, int toneladas);
+    // bool caravanaEmCidade(int id) const;
+    void vendeMercadoria(int id);
+    void compraTripulantes()
 
 
 

@@ -156,6 +156,23 @@ bool Deserto::lerComando(int &fase) {
             compraCaravana(argumentos[0][0],argumentos[1][0]); //tenho q acedersó há primeira posição pq é uma string
             return true;
         }
+        else if (comando == "compra") {
+            if (argumentos.size() != 2) {
+                cout<<"Falta argumentos (exemplo compra <idCaravana> <numToneladas>)"<<endl;
+                return false;
+            }
+            compraMercadoria(stoi(argumentos[0]),stoi(argumentos[1]));
+            return true;
+        }
+
+        else if (comando == "vende") {
+            if (argumentos.size() != 1) {
+                cout<<"Falta argumentos (exemplo vende <idCaravana>)"<<endl;
+                return false;
+            }
+            vendeMercadoria(stoi(argumentos[0]));
+            return true;
+        }
     }
 
 
@@ -238,8 +255,10 @@ void Deserto::adicionaCaravana(char c,position pos) {
 
 void Deserto::procuraCaravanaComId(int id) {
     for (auto caravana: caravanas) {
+        cout<<"Nao pode adicionar mais mercadoria"<<endl;
         if (caravana.getId()==id)
             caravana.printCaravana();
+        // return;caravana
     }
 }
 
@@ -248,6 +267,7 @@ void Deserto::compraCaravana(char c, char tipo) {
         if(cidade.getChar() == c) {
             if(cidade.compraCaravana(tipo)) {
                 adicionaCaravana(toupper(tipo),cidade.getPos());
+                acrescentaMoedas(-preço_caravana);
 
             }
 
@@ -256,7 +276,7 @@ void Deserto::compraCaravana(char c, char tipo) {
 
 }
 
-void Deserto::listaCidade(char c/*,vector<Cidade>& cidades*/) {
+void Deserto::listaCidade(char c) {
     for (auto cidade: cidades) {
         if (c==cidade.getChar()) {
             cidade.conteudoCidade();
@@ -290,6 +310,51 @@ bool Deserto::verificaCoordenadas(char c,int id) const {
         return true;
     }
     return false;
+}
+
+void Deserto::compraMercadoria(int id, int toneladas) {
+    for (const auto& cidade : cidades) {
+        if (verificaCoordenadas(cidade.getChar(), id)) {
+            for (auto &caravana: caravanas) {
+                if (caravana.getId()==id) {
+                    if (caravana.getMercadoriaAtual()+toneladas<=caravana.getMercadoriaMaxima()) {
+                        caravana.adicionaMercadoria(toneladas);
+                        acrescentaMoedas(-(toneladas * preço_compra_mercadoria));
+                    }
+                    else {
+                        cout<<"Nao pode adicionar mais mercadoria"<<endl;
+                    }
+                    return;
+
+                }
+            }
+
+        }
+    }cout<<"A caravana nao esta numa cidade"<<endl;
+
+}
+
+void Deserto::vendeMercadoria(int id) {
+    for (const auto& cidade : cidades) {
+        if (verificaCoordenadas(cidade.getChar(), id)) {
+            for (auto &caravana: caravanas) {
+                if (caravana.getId()==id) {
+                    int mercadoriaAtual = caravana.getMercadoriaAtual();
+                    if (mercadoriaAtual > 0) {
+                        caravana.adicionaMercadoria(-mercadoriaAtual); // Remove toda a mercadoria
+                        acrescentaMoedas(mercadoriaAtual * preço_venda_mercadoria); // Calcula e adiciona as moedas
+                        cout << "Mercadoria vendida com sucesso!" << endl;
+                    } else {
+                        cout << "A caravana não possui mercadoria para vender." << endl;
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
+    cout<<"A caravana nao esta numa cidade"<<endl;
+
 }
 
 

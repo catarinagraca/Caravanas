@@ -23,7 +23,7 @@ void Cidade::conteudoCidade() {
     for (auto caravana: caravanasParaCompra) {
         if (caravana.second == 0)
         cout<<"- Tipo: "<<caravana.first<<endl;
-       
+
     }
      cout<<"\nCaravanas estacionadas: "<<endl;
     // for (auto caravana: caravanasEstacionadas) {
@@ -46,3 +46,4 @@ bool Cidade::compraCaravana(char tipo) {
     return false;
 
 }
+
