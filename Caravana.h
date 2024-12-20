@@ -31,6 +31,8 @@ public:
     void printCaravana();
     int getMercadoriaMaxima();
     int adicionaMercadoria(int toneladas);
+    int getTripulacaoMaxima() ;
+    int adicionaTripulacao(int trip);
 
 
 

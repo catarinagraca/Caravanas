@@ -173,6 +173,14 @@ bool Deserto::lerComando(int &fase) {
             vendeMercadoria(stoi(argumentos[0]));
             return true;
         }
+        else if (comando == "tripul") {
+            if (argumentos.size() != 2) {
+                cout<<"Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)"<<endl;
+                return false;
+            }
+            compraTripulantes((stoi(argumentos[0])),stoi(argumentos[1]));
+            return true;
+        }
     }
 
 
@@ -357,4 +365,26 @@ void Deserto::vendeMercadoria(int id) {
 
 }
 
+void Deserto::compraTripulantes(int id,int numTripulantes ) {
+    for (const auto& cidade : cidades) {
+        if (verificaCoordenadas(cidade.getChar(), id)) {
+            for (auto &caravana: caravanas) {
+                if (caravana.getId()==id) {
+                    int tripulacaoAtual = caravana.getTripulacaoAtual();
+                    int tripulacaoMaxima = caravana.getTripulacaoMaxima();
+                    if (tripulacaoAtual + numTripulantes <= tripulacaoMaxima) {
+                        caravana.adicionaTripulacao(numTripulantes);
+                        acrescentaMoedas(-(numTripulantes ));
+                    }
+                    else {
+                        cout<<"Nao pode adicionar mais tripulantes"<<endl;
+                    }
+                    return;
+
+                }
+            }
+
+        }
+    }cout<<"A caravana nao esta numa cidade"<<endl;
+}
 

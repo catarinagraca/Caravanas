@@ -41,7 +41,7 @@ public:
     void compraMercadoria(int id, int toneladas);
     // bool caravanaEmCidade(int id) const;
     void vendeMercadoria(int id);
-    void compraTripulantes()
+    void compraTripulantes(int numTripulantes,int id);
 
 
 

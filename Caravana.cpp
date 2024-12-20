@@ -63,3 +63,10 @@ int Caravana::adicionaMercadoria(int toneladas) {
     return numMercadoria= toneladas+numMercadoria;
 }
 
+int Caravana::getTripulacaoMaxima() {
+    return tripulacaoMaxima;
+}
+
+int Caravana::adicionaTripulacao(int trip) {
+    return numTripulantes= trip+numTripulantes;
+}
