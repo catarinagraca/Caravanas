@@ -33,15 +33,16 @@ public:
     void listaPrecoMercadorias();
     void acrescentaMoedas(int N);
     void procuraCaravana();
-    void adicionaCaravana(char c,position pos);
+    int adicionaCaravana(char c,position pos);
     void procuraCaravanaComId(int id);
     void compraCaravana(char c,char tipo);
     void listaCidade(char c);
-    bool verificaCoordenadas(char cidade,int id) const;
+    bool verificaCoordenadas(char cidade,int id) ;
     void compraMercadoria(int id, int toneladas);
     // bool caravanaEmCidade(int id) const;
     void vendeMercadoria(int id);
     void compraTripulantes(int numTripulantes,int id);
+    void atualizaAgua(int id) /*const*/;
 
 
 

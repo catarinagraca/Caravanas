@@ -13,6 +13,7 @@ private:
     int numTripulantes;
     int numMercadoria;
     int agua;
+    int capacidadeAgua;
     int mercadoriaMaxima;
     int tripulacaoMaxima;
     position posicao;
@@ -21,11 +22,12 @@ private:
     static int  idCaravana;//para incrementar
 
 public:
-    Caravana(int aguaa,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo);
+    Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo);
     position getPos();
     int getId();
     char getTipo();
     int getAgua();
+    int getAguaAtual();
     int getMercadoriaAtual();
     int getTripulacaoAtual();
     void printCaravana();
@@ -33,6 +35,7 @@ public:
     int adicionaMercadoria(int toneladas);
     int getTripulacaoMaxima() ;
     int adicionaTripulacao(int trip);
+    int reabasteceAgua();
 
 
 

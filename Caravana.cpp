@@ -13,9 +13,10 @@
 
 int Caravana:: idCaravana=1; //inicializa a ordem dos __cpp_deduction_guides
 
-Caravana:: Caravana(int aguaa,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c) {
+Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c) {
     id=idCaravana++;
     agua=aguaa;
+    capacidadeAgua=capacidade;
     numTripulantes=numTrip;
     tripulacaoMaxima=tripMax;
     numMercadoria=mercadoria;
@@ -38,8 +39,12 @@ char Caravana::getTipo(){
 }
 
 int Caravana::getAgua() {
+    return capacidadeAgua;
+}
+int Caravana::getAguaAtual() {
     return agua;
 }
+
 
 int Caravana::getMercadoriaAtual() {
     return  numMercadoria;
@@ -52,7 +57,7 @@ int Caravana::getTripulacaoAtual() {
 void Caravana::printCaravana() {
         cout<<"->Caravana "<<id<<" do tipo "<<tipo<<endl;
         cout <<"Posicao, linha:"<<posicao.linha<<" ,coluna:"<<posicao.coluna<<endl;
-        cout<<"Atributos: capacidade de agua "<<agua<<" ,tripulacao atual:"<<numTripulantes<<" ,mercadoria atual:"<<numMercadoria<<"toneladas."<<endl;
+        cout<<"Atributos: agua atual  "<<agua<<" ,tripulacao atual:"<<numTripulantes<<" ,mercadoria atual:"<<numMercadoria<<"toneladas."<<endl;
         cout<<endl;
     }
 
@@ -69,4 +74,7 @@ int Caravana::getTripulacaoMaxima() {
 
 int Caravana::adicionaTripulacao(int trip) {
     return numTripulantes= trip+numTripulantes;
+}
+int Caravana::reabasteceAgua() {
+    return agua=capacidadeAgua;
 }

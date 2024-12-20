@@ -10,7 +10,7 @@
 class CaravanaComercio :public Caravana{
 
 public:
-CaravanaComercio(position pos):Caravana(200,20,20,0,40,pos,'C'){};
+CaravanaComercio(position pos):Caravana(20,200,20,20,0,40,pos,'C'){};
 
 
 

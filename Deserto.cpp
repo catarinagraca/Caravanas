@@ -244,20 +244,25 @@ void Deserto::procuraCaravana() {
 
 }
 
-void Deserto::adicionaCaravana(char c,position pos) {
+int Deserto::adicionaCaravana(char c,position pos) {
+    int id;
     if (c == 'M') {
         CaravanaMilitar temp=CaravanaMilitar(pos);
+        id = temp.getId();
         caravanas.push_back(temp);
     }
     if (c == 'C') {
         CaravanaComercio temp=CaravanaComercio(pos);
+        id = temp.getId();
         caravanas.push_back(temp);
 
     }
     if (c == 'S') {
         CaravanaSecreta temp= CaravanaSecreta(pos);
+        id = temp.getId();
         caravanas.push_back(temp);
     }
+    return id;
 }
 
 
@@ -274,8 +279,9 @@ void Deserto::compraCaravana(char c, char tipo) {
     for (auto &cidade: cidades) {
         if(cidade.getChar() == c) {
             if(cidade.compraCaravana(tipo)) {
-                adicionaCaravana(toupper(tipo),cidade.getPos());
+                int idCaravana= adicionaCaravana(toupper(tipo),cidade.getPos());
                 acrescentaMoedas(-preço_caravana);
+                atualizaAgua(idCaravana);
 
             }
 
@@ -294,12 +300,13 @@ void Deserto::listaCidade(char c) {
     for (auto caravana: caravanas) {
         if (verificaCoordenadas(c,caravana.getId())) {
             caravana.printCaravana();
+            // atualizaAgua(caravana.getId());
         }
     }
 
 }
 
-bool Deserto::verificaCoordenadas(char c,int id) const {
+bool Deserto::verificaCoordenadas(char c,int id)  {
     position posCidade,posCaravana;
     for (auto cidade: cidades) {
         if(cidade.getChar()==c ) {
@@ -315,7 +322,9 @@ bool Deserto::verificaCoordenadas(char c,int id) const {
     }
 
     if (posCaravana.coluna==posCidade.coluna && posCaravana.linha==posCidade.linha) {
+        atualizaAgua(id);
         return true;
+
     }
     return false;
 }
@@ -388,3 +397,10 @@ void Deserto::compraTripulantes(int id,int numTripulantes ) {
     }cout<<"A caravana nao esta numa cidade"<<endl;
 }
 
+void Deserto::atualizaAgua(int id) /*const*/ {
+    for (auto &caravana: caravanas) {
+        if (caravana.getId()==id) {
+            caravana.reabasteceAgua();
+        }
+    }
+}
