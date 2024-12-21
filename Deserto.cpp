@@ -612,12 +612,50 @@ void Deserto::desativarAutomove(int id) {
     }
 }
 void Deserto::atualizaCaravana() {
-    vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
+    // vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
     for (auto& caravana : caravanas) {
         if (caravana.getAutomove()) {
             // Gera um índice aleatório simples
             int randomIndex = rand() % direcoes.size();
             moveCaravana(caravana.getId(), direcoes[randomIndex]);
+        }
+    }
+}
+
+void Deserto::moverCaravanaBárbaro() {
+    for (auto barbaro: caravanaBarbaros) {
+       position posicaoBarb= barbaro.getPos();
+        Caravana* caravanaProxima=nullptr;
+        int menorDistancia=99999;
+       for (auto caravana: caravanas) {
+           position posCaravana=caravana.getPos();
+
+           // Calcula a distância entre o bárbaro e a caravana do usuário
+           int distanciaLinha = posicaoBarb.linha - posCaravana.linha;
+           int distanciaColuna = posicaoBarb.coluna - posCaravana.coluna;
+
+           // Converte as distâncias negativas para positivas
+           if (distanciaLinha < 0) distanciaLinha = -distanciaLinha;
+           if (distanciaColuna < 0) distanciaColuna = -distanciaColuna;
+
+           int distancia = distanciaLinha + distanciaColuna;
+
+           // Se a distância for menor ou igual a 8, verificamos se é a menor distância
+           if (distancia <= 8 && distancia < menorDistancia) {
+               menorDistancia = distancia;
+               caravanaProxima = &caravana;  // Armazena a referência à caravana mais próxima
+           }
+       }
+
+        // Se encontramos uma caravana do usuário a uma distância de 8 ou menos
+        if (caravanaProxima != nullptr) {
+            // Move o bárbaro em direção à caravana mais próxima
+            moveCaravanaEmDirecaoAUsuario(barbaro, caravanaProxima->getPos());
+        } else {
+            // Caso contrário, move o bárbaro aleatoriamente
+            int randomIndex = rand() % direcoes.size();
+            moveCaravana(barbaro.getId(), direcoes[randomIndex]);
+
         }
     }
 }

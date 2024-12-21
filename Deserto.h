@@ -25,7 +25,8 @@ private:
     vector<Caravana> caravanas;
     vector<Montanhas> montanhas;
     vector<position> posTempestadeAreia;
-    vector<Barbaros> caravanaBarbaros;
+    vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
+    vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
 
 public:
     Deserto(): buffer(){}
@@ -59,6 +60,7 @@ public:
     void ativarAutomove(int id);
     void desativarAutomove(int id);
     void atualizaCaravana();
+    void moverCaravanaBárbaro();
 
 };
 
