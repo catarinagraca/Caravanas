@@ -18,6 +18,7 @@ private:
     int tripulacaoMaxima;
     position posicao;
     char tipo;
+    bool automove;
 
     static int  idCaravana;//para incrementar
 
@@ -37,7 +38,9 @@ public:
     int adicionaTripulacao(int trip);
     int reabasteceAgua();
     void setPos(position pos);
-
+    bool getAutomove();
+    void changeAutoMoveTrue();
+    void changeAutoMoveFalse();
 
 
 };

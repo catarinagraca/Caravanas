@@ -11,7 +11,7 @@
 
 #include "Cidade.h"
 
-int Caravana:: idCaravana=1; //inicializa a ordem dos __cpp_deduction_guides
+int Caravana:: idCaravana=1; //inicializa a ordem dos
 
 Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c) {
     id=idCaravana++;
@@ -23,6 +23,7 @@ Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercad
     mercadoriaMaxima=mercMax;
     posicao=pos;
     tipo=c;
+    automove=false;         //0 n está ativado
 }
 
 
@@ -57,7 +58,7 @@ int Caravana::getTripulacaoAtual() {
 void Caravana::printCaravana() {
         cout<<"->Caravana "<<id<<" do tipo "<<tipo<<endl;
         cout <<"Posicao, linha:"<<posicao.linha<<" ,coluna:"<<posicao.coluna<<endl;
-        cout<<"Atributos: agua atual  "<<agua<<" ,tripulacao atual:"<<numTripulantes<<" ,mercadoria atual:"<<numMercadoria<<"toneladas."<<endl;
+        cout<<"Atributos: agua atual  "<<agua<<" ,tripulacao atual:"<<numTripulantes<<" ,mercadoria atual:"<<numMercadoria<<"toneladas, automovimento: "<<automove<<endl;
         cout<<endl;
     }
 
@@ -82,4 +83,15 @@ int Caravana::reabasteceAgua() {
 void Caravana::setPos(position pos) {
     posicao=pos;
 
+}
+
+bool Caravana::getAutomove() {
+    return automove;
+}
+
+void Caravana::changeAutoMoveTrue() {
+    automove=true;
+}
+void Caravana::changeAutoMoveFalse() {
+    automove=false;
 }

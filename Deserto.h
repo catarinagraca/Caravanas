@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 
+#include "Barbaros.h"
 #include "Caravana.h"
 #include "Cidade.h"
 #include "Montanhas.h"
@@ -23,6 +24,8 @@ private:
     vector <Cidade> cidades;
     vector<Caravana> caravanas;
     vector<Montanhas> montanhas;
+    vector<position> posTempestadeAreia;
+    vector<Barbaros> caravanaBarbaros;
 
 public:
     Deserto(): buffer(){}
@@ -50,7 +53,12 @@ public:
     void atualizaBuffer();
     bool verificaMovimento(int linha,int coluna);   //true movimento válido
     void pontuacao();
-
+    void tempestadeAreia(int linha,int coluna, int raio);
+    void procuraBarbaros();
+    void adicionaBarbaros(position pos);
+    void ativarAutomove(int id);
+    void desativarAutomove(int id);
+    void atualizaCaravana();
 
 };
 
