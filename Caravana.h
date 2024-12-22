@@ -26,6 +26,7 @@ private:
 
 public:
     Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo, int moves);
+    // ~Caravana();
     position getPos();
     int getId();
     char getTipo();
@@ -38,6 +39,7 @@ public:
     int adicionaMercadoria(int toneladas);
     int getTripulacaoMaxima() ;
     int adicionaTripulacao(int trip);
+    int removeTripulacao(int trip);
     int reabasteceAgua();
     void setPos(position pos);
     bool getAutomove();
@@ -45,6 +47,7 @@ public:
     void changeAutoMoveFalse();
     void alteraAgua(int valor);
     int  setMoves(int movimentos);
+    void removeCaravana();
 
      virtual void gastaAgua()=0;
     virtual void setMovimentos()=0;

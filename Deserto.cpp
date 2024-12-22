@@ -3,6 +3,8 @@
 //
 
 #include "Deserto.h"
+
+#include <algorithm>
 #include <iosfwd>
 #include <vector>
 
@@ -535,6 +537,13 @@ void Deserto::moveCaravana(int id, string direcao) {
                  // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
                 // gastaAgua();
                 atualizaBuffer();
+
+                for (auto &barbaro : caravanaBarbaros) {
+                    if (!adjacente(barbaro.getPos(), novaPos)) {
+                        barbaro.setComabte(false) ; // Reseta o combate
+                    }
+                }
+
             } else {
                 cout << "Movimento invalido!" << endl;
             }
@@ -644,6 +653,7 @@ void Deserto::atualizaCaravana() {
 }
 
 void Deserto::moveBarbaro(string direcao) {
+
     for (auto &barbaro : caravanaBarbaros) {
         position posAtual = barbaro.getPos(); // Obtém a posição atual da caravana
         position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
@@ -691,15 +701,20 @@ void Deserto::moveBarbaro(string direcao) {
             }
         }
 
-        if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
+        if ((verificaMovimento(novaPos.linha, novaPos.coluna))) {
                 barbaro.setPos(novaPos); // Atualiza a posição da caravana
                 atualizaBuffer();
+
             for (const auto &caravana : caravanas) {
                 if (adjacente(novaPos, caravana->getPos())) {
-                    cout << "Bárbaro está adjacente a uma caravana!" << endl;
+                     barbaro.setComabte(true);
+                    combate(barbaro,*caravana);
+
+                    cout << "Barbaro esta adjacente a uma caravana!" << endl;
 
                     break; // Para de procurar, pois encontramos uma caravana adjacente
                 }
+
             }
                 // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
         } else {
@@ -735,3 +750,75 @@ bool Deserto:: adjacente(position pos1, position pos2) {
 
 }
 
+void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
+    int sorteioBarbaro = rand() % barbaro.getBarbaros();
+    int sorteioCaravana = rand() % caravana.getTripulacaoAtual();
+
+    if (sorteioBarbaro > sorteioCaravana) {
+        // Bárbaro vence
+        cout<<"o Barbaro venceu"<<endl;
+        int perdaBarbaro = barbaro.getBarbaros() * 0.2;
+        int perdaCaravana = perdaBarbaro * 2;
+
+        barbaro.removeTripulacao(perdaBarbaro);
+        caravana.removeTripulacao(perdaCaravana);
+
+        // Transferência de água da caravana para o bárbaro se a caravana for destruída
+        if (caravana.getTripulacaoAtual() <= 0) {
+            // barbaro.adicionaAgua(caravana.getAgua());
+            removeCaravana(caravana.getId()); // Remover a caravana destruída
+            barbaro.setComabte(false);
+            cout << "A caravana foi destruída. Sua água foi transferida para o bárbaro." << endl;
+            // break;
+        }
+
+    }
+    if (sorteioBarbaro < sorteioCaravana) {
+
+        cout<<"a Caravana venceu"<<endl;
+        int perdaCaravana = caravana.getTripulacaoAtual() * 0.2;
+        int perdaBarbaro = perdaCaravana * 2;
+
+        caravana.removeTripulacao(perdaCaravana);
+        barbaro.removeTripulacao(perdaBarbaro);
+
+        // Transferência de água da caravana para o bárbaro se a caravana for destruída
+        if (barbaro.getBarbaros() <= 0) {
+            // barbaro.adicionaAgua(caravana.getAgua());
+            removeBarbaro(barbaro); // Remover a caravana destruída
+            barbaro.setComabte(false);
+            cout << "A caravana foi destruída. Sua água foi transferida para o bárbaro." << endl;
+            // break;
+        }
+
+    }
+
+}
+
+void Deserto::removeCaravana(int id) {
+    auto it = std::remove_if(caravanas.begin(), caravanas.end(),
+                             [id](const std::unique_ptr<Caravana> &ptr) {
+                                 return ptr->getId() == id; // Compara o ID
+                             });
+
+    // Remove o elemento do vetor
+    if (it != caravanas.end()) {
+        caravanas.erase(it, caravanas.end());
+        cout << "Caravana com ID " << id << " removida do deserto." << endl;
+    } else {
+        cout << "Caravana com ID " << id << " não encontrada para remoção." << endl;
+    }
+    // combateEmAndamento=false;
+
+}
+
+void Deserto::removeBarbaro( Barbaros& barbaro) {
+    for (auto it = caravanaBarbaros.begin(); it != caravanaBarbaros.end(); ++it) {
+        if (&(*it) == &barbaro) { // Verifica se os endereços coincidem (mesmo objeto)
+            caravanaBarbaros.erase(it); // Remove o bárbaro da lista
+            std::cout << "Bárbaro removido com sucesso." << std::endl;
+            return; // Saia do loop após remover o bárbaro
+        }
+    }
+    std::cout << "Bárbaro não encontrado na lista." << std::endl;
+}

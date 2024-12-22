@@ -77,6 +77,12 @@ int Caravana::getTripulacaoMaxima() {
 int Caravana::adicionaTripulacao(int trip) {
     return numTripulantes= trip+numTripulantes;
 }
+
+int Caravana::removeTripulacao(int trip) {
+    return numTripulantes= numTripulantes-trip;
+}
+
+
 int Caravana::reabasteceAgua() {
     return agua=capacidadeAgua;
 }
@@ -111,4 +117,6 @@ void Caravana::alteraAgua(int valor) {
 int Caravana::setMoves(int movimentos) {
     return numMovimentos=movimentos;
 }
+
+
 

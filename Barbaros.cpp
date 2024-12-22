@@ -15,7 +15,14 @@ int Barbaros::getId() {
     return id;
 }
 void Barbaros::setPos(position posicao) {
-    pos=posicao;
+    if(!combateEmAndamento) pos=posicao;
+
 
 }
+int Barbaros::removeTripulacao(int trip) {
+    return numBarbaros= numBarbaros-trip;
+}
 
+void Barbaros::setComabte(bool combate) {
+    combateEmAndamento=combate;
+}

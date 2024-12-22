@@ -28,6 +28,8 @@ private:
     vector<position> posTempestadeAreia;
     vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
     vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
+    // bool combateEmAndamento;
+
     static int instantes;
 
 public:
@@ -65,7 +67,9 @@ public:
     void porximoInstantes(int numInstantes=1) ;
     void moveBarbaro( string direcao) ;
     bool adjacente(position pos1,position pos2);
-    
+    void combate(Barbaros &barbaro,Caravana &caravana);
+    void removeCaravana(int id) ;
+    void removeBarbaro( Barbaros& barbaro);
 
 };
 
