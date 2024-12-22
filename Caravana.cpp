@@ -11,7 +11,7 @@
 
 #include "Cidade.h"
 
-int Caravana:: idCaravana=1; //inicializa a ordem dos
+int Caravana:: idCaravana=1; //inicializa a ordem dos ids
 
 Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c) {
     id=idCaravana++;
@@ -94,4 +94,9 @@ void Caravana::changeAutoMoveTrue() {
 }
 void Caravana::changeAutoMoveFalse() {
     automove=false;
+}
+
+void Caravana::alteraAgua(int valor) {
+    agua=valor+agua;
+
 }

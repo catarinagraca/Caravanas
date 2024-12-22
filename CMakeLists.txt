@@ -24,4 +24,5 @@ add_executable(TrabalhoPratico main.cpp
         Montanhas.h
         Barbaros.cpp
         Barbaros.h
+        Barbaros.cpp
 )

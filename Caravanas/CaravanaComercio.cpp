@@ -4,3 +4,14 @@
 
 #include "CaravanaComercio.h"
 
+void CaravanaComercio::gastaAgua()  {
+
+    if (getTripulacaoAtual()<getTripulacaoMaxima()/2) {
+        alteraAgua(-1);
+    }else if (getTripulacaoAtual()==0) {
+        alteraAgua(0);
+    }
+    alteraAgua(-2);
+
+}
+

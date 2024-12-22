@@ -41,6 +41,10 @@ public:
     bool getAutomove();
     void changeAutoMoveTrue();
     void changeAutoMoveFalse();
+    void alteraAgua(int valor);
+
+     virtual void gastaAgua()=0;
+
 
 
 };

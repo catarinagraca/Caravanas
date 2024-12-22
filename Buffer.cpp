@@ -29,6 +29,7 @@ void Buffer::render() const {
           }
           cout << '\n';
       }
+      cout << '\n';
   }
 
 

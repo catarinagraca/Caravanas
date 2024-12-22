@@ -7,6 +7,7 @@
 #include "Buffer.h"
 #include <fstream>
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "Barbaros.h"
@@ -22,11 +23,12 @@ private:
     int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
     preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
     vector <Cidade> cidades;
-    vector<Caravana> caravanas;
+    vector<unique_ptr<Caravana>> caravanas;
     vector<Montanhas> montanhas;
     vector<position> posTempestadeAreia;
     vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
     vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
+    static int instantes;
 
 public:
     Deserto(): buffer(){}
@@ -61,7 +63,9 @@ public:
     void desativarAutomove(int id);
     void atualizaCaravana();
     void moverCaravanaBárbaro();
-
+    void porximoInstantes(int numInstantes=1) ;
+    void gastaAgua();
+    void moveBarbaro( string direcao) ;
 };
 
 

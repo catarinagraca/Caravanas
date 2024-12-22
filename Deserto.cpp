@@ -200,12 +200,6 @@ bool Deserto::lerComando(int &fase) {
                 return false;
             }
             tempestadeAreia(stoi(argumentos[0]),stoi(argumentos[1]),stoi(argumentos[2]));
-        }else if (comando == "prox") {
-            if (argumentos.size() >= 1) {
-                cout<<"argumentos a mais (exemplo prox <numInstantes>)"<<endl;
-                return false;
-            }
-            buffer.render();
         }else if (comando == "barbaro") {
             if (argumentos.size() != 2) {
                 cout<<"Falta argumentos (exemplo barbaro <x> <y>)"<<endl;
@@ -232,11 +226,22 @@ bool Deserto::lerComando(int &fase) {
             atualizaCaravana();
             // atualizaBuffer();
             // buffer.render();
+        }else if (comando == "prox") {
+            if (argumentos.size() > 1) {
+                cout<<"argumentos a mais (exemplo prox <numInstantes>)"<<endl;
+                return false;
+            }
+            if (argumentos.empty()) porximoInstantes();
+            else {
+                porximoInstantes(stoi(argumentos[0]));
+            }
+             // atualizaCaravana();
+            // atualizaBuffer();
+            // buffer.render();
         }
-
-
         return true;
     }
+    return false;
 }
 
 void Deserto::listaPrecoMercadorias(){
@@ -341,30 +346,35 @@ void Deserto::procuraCaravana() {
 int Deserto::adicionaCaravana(char c,position pos) {
     int id;
     if (c == 'M') {
-        CaravanaMilitar temp=CaravanaMilitar(pos);
-        id = temp.getId();
-        caravanas.push_back(temp);
+        auto  temp=make_unique<CaravanaMilitar>(pos);
+        id = temp->getId();
+        caravanas.emplace_back(move(temp));
     }
     if (c == 'C') {
-        CaravanaComercio temp=CaravanaComercio(pos);
-        id = temp.getId();
-        caravanas.push_back(temp);
+        auto  temp=make_unique<CaravanaComercio>(pos);
+        id = temp->getId();
+        caravanas.emplace_back(move(temp));
+        // CaravanaComercio temp=CaravanaComercio(pos);
+        // id = temp.getId();
+        // caravanas.emplace_back(make_unique<CaravanaComercio>(pos));
 
     }
     if (c == 'S') {
-        CaravanaSecreta temp= CaravanaSecreta(pos);
-        id = temp.getId();
-        caravanas.push_back(temp);
+        auto  temp=make_unique<CaravanaSecreta>(pos);
+        id = temp->getId();
+        caravanas.emplace_back(move(temp));
+    //     CaravanaSecreta temp= CaravanaSecreta(pos);
+    //     id = temp.getId();
+    //     caravanas.emplace_back(make_unique<CaravanaSecreta>(pos));
     }
     return id;
 }
 
 
 void Deserto::procuraCaravanaComId(int id) {
-    for (auto caravana: caravanas) {
-        cout<<"Nao pode adicionar mais mercadoria"<<endl;
-        if (caravana.getId()==id)
-            caravana.printCaravana();
+    for (const auto &caravana: caravanas) {
+        if (caravana->getId()==id)
+            caravana->printCaravana();
         // return;caravana
     }
 }
@@ -391,9 +401,9 @@ void Deserto::listaCidade(char c) {
         }
 
     }
-    for (auto caravana: caravanas) {
-        if (verificaCoordenadas(c,caravana.getId())) {
-            caravana.printCaravana();
+    for (auto &caravana: caravanas) {
+        if (verificaCoordenadas(c,caravana->getId())) {
+            caravana->printCaravana();
             // atualizaAgua(caravana.getId());
         }
     }
@@ -408,9 +418,9 @@ bool Deserto::verificaCoordenadas(char c,int id)  {
 
         }
     }
-    for (auto caravana: caravanas) {
-        if(caravana.getId()==id ) {
-            posCaravana=caravana.getPos();
+    for (auto &caravana: caravanas) {
+        if(caravana->getId()==id ) {
+            posCaravana=caravana->getPos();
 
         }
     }
@@ -427,9 +437,9 @@ void Deserto::compraMercadoria(int id, int toneladas) {
     for (const auto& cidade : cidades) {
         if (verificaCoordenadas(cidade.getChar(), id)) {
             for (auto &caravana: caravanas) {
-                if (caravana.getId()==id) {
-                    if (caravana.getMercadoriaAtual()+toneladas<=caravana.getMercadoriaMaxima()) {
-                        caravana.adicionaMercadoria(toneladas);
+                if (caravana->getId()==id) {
+                    if (caravana->getMercadoriaAtual()+toneladas<=caravana->getMercadoriaMaxima()) {
+                        caravana->adicionaMercadoria(toneladas);
                         acrescentaMoedas(-(toneladas * preço_compra_mercadoria));
                     }
                     else {
@@ -449,10 +459,10 @@ void Deserto::vendeMercadoria(int id) {
     for (const auto& cidade : cidades) {
         if (verificaCoordenadas(cidade.getChar(), id)) {
             for (auto &caravana: caravanas) {
-                if (caravana.getId()==id) {
-                    int mercadoriaAtual = caravana.getMercadoriaAtual();
+                if (caravana->getId()==id) {
+                    int mercadoriaAtual = caravana->getMercadoriaAtual();
                     if (mercadoriaAtual > 0) {
-                        caravana.adicionaMercadoria(-mercadoriaAtual); // Remove toda a mercadoria
+                        caravana->adicionaMercadoria(-mercadoriaAtual); // Remove toda a mercadoria
                         acrescentaMoedas(mercadoriaAtual * preço_venda_mercadoria); // Calcula e adiciona as moedas
                         cout << "Mercadoria vendida com sucesso!" << endl;
                     } else {
@@ -472,11 +482,11 @@ void Deserto::compraTripulantes(int id,int numTripulantes ) {
     for (const auto& cidade : cidades) {
         if (verificaCoordenadas(cidade.getChar(), id)) {
             for (auto &caravana: caravanas) {
-                if (caravana.getId()==id) {
-                    int tripulacaoAtual = caravana.getTripulacaoAtual();
-                    int tripulacaoMaxima = caravana.getTripulacaoMaxima();
+                if (caravana->getId()==id) {
+                    int tripulacaoAtual = caravana->getTripulacaoAtual();
+                    int tripulacaoMaxima = caravana->getTripulacaoMaxima();
                     if (tripulacaoAtual + numTripulantes <= tripulacaoMaxima) {
-                        caravana.adicionaTripulacao(numTripulantes);
+                        caravana->adicionaTripulacao(numTripulantes);
                         acrescentaMoedas(-(numTripulantes ));
                     }
                     else {
@@ -493,16 +503,16 @@ void Deserto::compraTripulantes(int id,int numTripulantes ) {
 
 void Deserto::atualizaAgua(int id) /*const*/ {
     for (auto &caravana: caravanas) {
-        if (caravana.getId()==id) {
-            caravana.reabasteceAgua();
+        if (caravana->getId()==id) {
+            caravana->reabasteceAgua();
         }
     }
 }
 
 void Deserto::moveCaravana(int id, string direcao) {
     for (auto &caravana : caravanas) {
-        if (caravana.getId() == id) {
-            position posAtual = caravana.getPos(); // Obtém a posição atual da caravana
+        if (caravana->getId() == id) {
+            position posAtual = caravana->getPos(); // Obtém a posição atual da caravana
             position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
 
             // Calcula o movimento com base na direção fornecida
@@ -521,9 +531,10 @@ void Deserto::moveCaravana(int id, string direcao) {
 
             // Verifica se o movimento é válido
             if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
-                caravana.setPos(novaPos); // Atualiza a posição da caravana
+                caravana->setPos(novaPos); // Atualiza a posição da caravana
+                // gastaAgua();
                 atualizaBuffer();
-                // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
+                 cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
             } else {
                 cout << "Movimento invalido!" << endl;
             }
@@ -542,8 +553,8 @@ void Deserto::atualizaBuffer() {
     for (auto montanha: montanhas) {
         buffer.setChar(montanha.getPos().linha,montanha.getPos().coluna,'+');
     }
-    for (auto caravana: caravanas) {
-        buffer.setChar(caravana.getPos().linha,caravana.getPos().coluna,'0'+caravana.getId());
+    for (auto &caravana: caravanas) {
+        buffer.setChar(caravana->getPos().linha,caravana->getPos().coluna,'0'+caravana->getId());
     }
     for (auto barbaro: caravanaBarbaros) {
         buffer.setChar(barbaro.getPos().linha,barbaro.getPos().coluna,'!');
@@ -563,8 +574,11 @@ void Deserto::atualizaBuffer() {
          if(montanha.getPos().linha==linha && montanha.getPos().coluna==coluna) return false;
 
      }
-     for (auto caravana: caravanas) {
-         if (caravana.getPos().linha == linha && caravana.getPos().coluna == coluna) return false;
+    for (auto cidade: cidades){
+        if(cidade.getPos().linha == linha && cidade.getPos().coluna == coluna) return true; // Permitir varias caravanas em cidades
+    }
+     for (auto &caravana: caravanas) {
+         if (caravana->getPos().linha == linha && caravana->getPos().coluna == coluna) return false;
 
      }
     return true;
@@ -593,9 +607,9 @@ void Deserto::tempestadeAreia(int linha,int coluna, int raio) {
 
 void Deserto::ativarAutomove(int id) {
     for (auto &caravana: caravanas) {
-        if (caravana.getId() == id) {
-            caravana.changeAutoMoveTrue();
-            std::cout << "Caravana " << id << " agora se move automaticamente: " <<caravana.getAutomove()<< std::endl;
+        if (caravana->getId() == id) {
+            caravana->changeAutoMoveTrue();
+            std::cout << "Caravana " << id << " agora se move automaticamente: " <<caravana->getAutomove()<< std::endl;
             return;
         }
 
@@ -603,9 +617,9 @@ void Deserto::ativarAutomove(int id) {
 }
 void Deserto::desativarAutomove(int id) {
     for (auto &caravana: caravanas) {
-        if (caravana.getId() == id) {
-            caravana.changeAutoMoveFalse();
-            std::cout << "Caravana " << id << " agora se move a seu pedido: " <<caravana.getAutomove()<< std::endl;
+        if (caravana->getId() == id) {
+            caravana->changeAutoMoveFalse();
+            std::cout << "Caravana " << id << " agora se move a seu pedido: " <<caravana->getAutomove()<< std::endl;
             return;
         }
 
@@ -614,14 +628,66 @@ void Deserto::desativarAutomove(int id) {
 void Deserto::atualizaCaravana() {
     // vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
     for (auto& caravana : caravanas) {
-        if (caravana.getAutomove()) {
+        if (caravana->getAutomove() && caravana->getTipo()=='C') {
             // Gera um índice aleatório simples
             int randomIndex = rand() % direcoes.size();
-            moveCaravana(caravana.getId(), direcoes[randomIndex]);
+            moveCaravana(caravana->getId(), direcoes[randomIndex]);
+            // caravana.gastaAgua();
+            // }
+            // if (caravana.getTipo()=='C') {
+            //     cout << "Caravana ID: " << caravana.getId() << " - Água antes: " << caravana.getAgua() << endl;
+            //     if (caravana.getTripulacaoAtual() < caravana.getTripulacaoMaxima()/2) {
+            //         caravana.alteraAgua(-1);
+            //     }else if (caravana.getTripulacaoAtual()==0) {
+            //         caravana.alteraAgua(0);
+            //     }
+            //     caravana.alteraAgua(-2);
+            // }
+            // cout << "Caravana ID: " << caravana.getId() << " - Água depois: " << caravana.getAgua() << endl;
+            // cout<<caravana.getAgua()<<endl;
+
         }
+         caravana->gastaAgua();
     }
+
+    int randomIndex = rand() % direcoes.size();
+    moveBarbaro( direcoes[randomIndex]);
+
+
 }
 
+void Deserto::moveBarbaro( string direcao) {
+    for (auto &barbaro : caravanaBarbaros) {
+        position posAtual = barbaro.getPos(); // Obtém a posição atual da caravana
+        position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
+
+        // Calcula o movimento com base na direção fornecida
+        if (direcao == "D") novaPos.coluna += 1; // Direita
+        else if (direcao == "E") novaPos.coluna -= 1; // Esquerda
+        else if (direcao == "C") novaPos.linha -= 1; // Cima
+        else if (direcao == "B") novaPos.linha += 1; // Baixo
+        else if (direcao == "CE") { novaPos.linha -= 1; novaPos.coluna -= 1; } // Cima-Esquerda
+        else if (direcao == "CD") { novaPos.linha -= 1; novaPos.coluna += 1; } // Cima-Direita
+        else if (direcao == "BE") { novaPos.linha += 1; novaPos.coluna -= 1; } // Baixo-Esquerda
+        else if (direcao == "BD") { novaPos.linha += 1; novaPos.coluna += 1; } // Baixo-Direita
+        else {
+            cout << "Direção inválida!" << endl;
+            return;
+        }
+
+        if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
+            barbaro.setPos(novaPos); // Atualiza a posição da caravana
+            // gastaAgua();
+            atualizaBuffer();
+            // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
+        } else {
+            cout << "Movimento invalido!" << endl;
+        }
+    }
+
+
+}
+/*
 void Deserto::moverCaravanaBárbaro() {
     for (auto barbaro: caravanaBarbaros) {
        position posicaoBarb= barbaro.getPos();
@@ -659,3 +725,40 @@ void Deserto::moverCaravanaBárbaro() {
         }
     }
 }
+*/
+// void Deserto::porximoInstantes(int numInstantes) {
+//     instantes=instantes+numInstantes;
+//     cout<<instantes<<endl;
+// }
+
+void Deserto::porximoInstantes(int numInstantes) {
+    instantes=instantes+numInstantes;
+    if(numInstantes>1) {
+        for (int i=0; i<numInstantes;i++) {
+             atualizaCaravana();
+            atualizaBuffer();
+            buffer.render();
+        }
+    }
+    atualizaCaravana();
+    atualizaBuffer();
+    buffer.render();
+
+    cout<<instantes<<endl;
+}
+
+int Deserto::instantes = 0;
+
+// void Deserto::gastaAgua(){
+//      for (auto &caravana: caravanas) {
+//         if (caravana.getTipo()=='C') {
+//             if (caravana.getTripulacaoAtual()<caravana.getTripulacaoMaxima()/2) {
+//             caravana.alteraAgua(-1);
+//             }else if (caravana.getTripulacaoAtual()==0) {
+//                 caravana.alteraAgua(0);
+//             }
+//             caravana.alteraAgua(-2);
+//         }
+//          cout<<caravana.getAgua()<<endl;
+//     }
+// }
