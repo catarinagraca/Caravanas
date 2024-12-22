@@ -11,3 +11,6 @@ void CaravanaMilitar::gastaAgua() {
     alteraAgua(-3);
 
 }
+void CaravanaMilitar::setMovimentos() {
+    setMoves(3);
+}

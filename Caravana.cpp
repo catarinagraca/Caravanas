@@ -13,7 +13,7 @@
 
 int Caravana:: idCaravana=1; //inicializa a ordem dos ids
 
-Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c) {
+Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c, int moves) {
     id=idCaravana++;
     agua=aguaa;
     capacidadeAgua=capacidade;
@@ -24,6 +24,7 @@ Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercad
     posicao=pos;
     tipo=c;
     automove=false;         //0 n está ativado
+    numMovimentos=moves;
 }
 
 
@@ -81,7 +82,13 @@ int Caravana::reabasteceAgua() {
 }
 
 void Caravana::setPos(position pos) {
-    posicao=pos;
+    if (numMovimentos>0) {
+        posicao=pos;
+        numMovimentos--;
+        cout << "Caravana " << id << " movida para (" << pos.linha << ", " << pos.coluna << ")." << endl;
+    }else {
+        cout<<"Nao pode movimentar mais"<<endl;
+    }
 
 }
 
@@ -100,3 +107,8 @@ void Caravana::alteraAgua(int valor) {
     agua=valor+agua;
 
 }
+
+int Caravana::setMoves(int movimentos) {
+    return numMovimentos=movimentos;
+}
+

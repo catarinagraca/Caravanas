@@ -9,8 +9,9 @@
 
 class CaravanaSecreta :public Caravana{
 public:
-    CaravanaSecreta(position pos):Caravana(200,200,20,20,0,40,pos,'S'){};
+    CaravanaSecreta(position pos):Caravana(200,200,20,20,0,40,pos,'S',2){};
     void gastaAgua() override;
+    void setMovimentos() override;
 };
 
 

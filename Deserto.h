@@ -62,10 +62,11 @@ public:
     void ativarAutomove(int id);
     void desativarAutomove(int id);
     void atualizaCaravana();
-    void moverCaravanaBárbaro();
     void porximoInstantes(int numInstantes=1) ;
-    void gastaAgua();
     void moveBarbaro( string direcao) ;
+    bool adjacente(position pos1,position pos2);
+    
+
 };
 
 

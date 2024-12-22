@@ -15,3 +15,6 @@ void CaravanaComercio::gastaAgua()  {
 
 }
 
+void CaravanaComercio::setMovimentos() {
+    setMoves(2);
+}

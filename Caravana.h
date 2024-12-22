@@ -19,11 +19,13 @@ private:
     position posicao;
     char tipo;
     bool automove;
+    int numMovimentos;
+
 
     static int  idCaravana;//para incrementar
 
 public:
-    Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo);
+    Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo, int moves);
     position getPos();
     int getId();
     char getTipo();
@@ -42,8 +44,11 @@ public:
     void changeAutoMoveTrue();
     void changeAutoMoveFalse();
     void alteraAgua(int valor);
+    int  setMoves(int movimentos);
 
      virtual void gastaAgua()=0;
+    virtual void setMovimentos()=0;
+
 
 
 

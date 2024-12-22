@@ -4,6 +4,8 @@
 
 #include "CaravanaSecreta.h"
 
+#include <iostream>
+
 
 void CaravanaSecreta::gastaAgua() {
 
@@ -12,4 +14,8 @@ void CaravanaSecreta::gastaAgua() {
     }
     alteraAgua(-3);
 
+}
+
+void CaravanaSecreta::setMovimentos() {
+    cout<<"lol";
 }
