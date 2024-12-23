@@ -330,11 +330,11 @@ void Deserto::procuraBarbaros() {
     }
 }
 
-void Deserto::adicionaBarbaros(position pos) {
-    Barbaros temp = Barbaros(pos);
-    caravanaBarbaros.push_back(temp);
-    // cout<<"linha"<<pos.linha<<", coluna"<<pos.coluna<<endl;
-}
+    void Deserto::adicionaBarbaros(position pos) {
+        Barbaros temp = Barbaros(pos);
+        caravanaBarbaros.push_back(temp);
+        // cout<<"linha"<<pos.linha<<", coluna"<<pos.coluna<<endl;
+    }
 
 void Deserto::procuraCaravana() {
     for (int i = 0; i < buffer.getlinhas(); i++) {
@@ -728,16 +728,22 @@ void Deserto::moveBarbaro(string direcao) {
 
 void Deserto::porximoInstantes(int numInstantes) {
     instantes = instantes + numInstantes;
+    if (instantes%instantes_entre_novos_barbaros==0) {
+        adicionaBarbaros(posAleatoria());
+    }
     if (numInstantes > 1) {
         for (int i = 0; i < numInstantes; i++) {
             atualizaCaravana();
             atualizaBuffer();
             buffer.render();
+
         }
+
+    }else {
+        atualizaCaravana();
+        atualizaBuffer();
+        buffer.render();
     }
-    atualizaCaravana();
-    atualizaBuffer();
-    buffer.render();
 
     cout << instantes << endl;
 }
@@ -947,3 +953,16 @@ void Deserto::danoTempestade(Caravana &caravana) {
 
 }
 
+position Deserto::posAleatoria() {
+    position posAleatoria;
+
+    // Tente até encontrar uma posição válida
+    do {
+        // Gere coordenadas aleatórias dentro dos limites do mapa
+        posAleatoria.linha = rand() % buffer.getlinhas();  // Gerar linha aleatória
+        posAleatoria.coluna = rand() % buffer.getColunas(); // Gerar coluna aleatória
+    } while (!verificaMovimento(posAleatoria.linha, posAleatoria.coluna));  // Verifica se a posição é válida
+
+
+    return posAleatoria;
+}

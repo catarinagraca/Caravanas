@@ -77,7 +77,7 @@ public:
     void deleteSave(string &nome);
     void verificaTempestade();
     void danoTempestade(Caravana &caravana);
-
+    position posAleatoria();
 };
 
 
