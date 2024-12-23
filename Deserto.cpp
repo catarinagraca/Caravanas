@@ -901,8 +901,6 @@ void Deserto::verificaTempestade() {
                 danoTempestade(**it);
             }
         }
-        // ++it;
-
     }
     // for (auto &caravana: caravanas) {
     //     position posCaravana=caravana->getPos();
@@ -913,9 +911,31 @@ void Deserto::verificaTempestade() {
     //
     //     }
     // }
+    for (auto it = caravanaBarbaros.begin(); it != caravanaBarbaros.end(); ++it) {
+        position posCaravana = (*it).getPos();
+
+
+        for (const auto &pos : posTempestadeAreia) {
+            if (posCaravana.coluna == pos.coluna && posCaravana.linha == pos.linha) {
+                danoTempestadeB(*it);
+            }
+        }
+    }
     posTempestadeAreia.clear();
 }
+void Deserto::danoTempestadeB(Barbaros &barbaro) {
+    int chanceSobreviver=75;
+    int random=rand()%100+1;
+    if (random>chanceSobreviver) {
+        cout<<"A caravana de barbaros foi destruida por uma tempestade"<<endl;
+        removeBarbaro(barbaro);
+    }else {
+        int perdeTrip=barbaro.getBarbaros()* 0.10;
+        barbaro.removeTripulacao(perdeTrip);
+        cout<<"A caravana de barbaros sobreviveu mas so sobra "<<barbaro.getBarbaros()<<" tripulantes"<<endl;
+    }
 
+}
 void Deserto::danoTempestade(Caravana &caravana) {
     if (caravana.getTipo()=='C') {
         int cargaMaxima=caravana.getMercadoriaMaxima();
