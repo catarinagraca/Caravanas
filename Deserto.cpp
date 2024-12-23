@@ -907,28 +907,43 @@ void Deserto::verificaTempestade() {
     //
     //     }
     // }
+    posTempestadeAreia.clear();
 }
 
 void Deserto::danoTempestade(Caravana &caravana) {
-    int cargaMaxima=caravana.getMercadoriaMaxima();
-    int cargaOcupada=caravana.getMercadoriaAtual();
+    if (caravana.getTipo()=='C') {
+        int cargaMaxima=caravana.getMercadoriaMaxima();
+        int cargaOcupada=caravana.getMercadoriaAtual();
 
-    float percentagemOcupada =(float)cargaOcupada/cargaMaxima*100;
-    int chanceSobreviver;
-    if (percentagemOcupada>50) {
-        chanceSobreviver=50;
+        float percentagemOcupada =(float)cargaOcupada/cargaMaxima*100;
+        int chanceSobreviver;
+        if (percentagemOcupada>50) {
+            chanceSobreviver=50;
+        }
+        else {
+            chanceSobreviver=75;
+        }
+        int random=rand()%100+1;
+        if (random>chanceSobreviver) {
+            cout<<"A caravana "<<caravana.getId()<<" foi destruida por uma tempestade"<<endl;
+            removeCaravana(caravana.getId());
+        } else {
+            int perdeCarga=cargaOcupada* 0.25;
+            caravana.adicionaMercadoria(-perdeCarga);
+            cout<<"A caravana "<<caravana.getId()<< " sobreviveu mas so sobra "<<caravana.getMercadoriaAtual()<<" toneladas de mercadoria"<<endl;
+        }
+    }else if (caravana.getTipo()=='M') {
+        int chanceSobreviver=66;
+        int random=rand()%100+1;
+        if (random>chanceSobreviver) {
+            cout<<"A caravana "<<caravana.getId()<<" foi destruida por uma tempestade"<<endl;
+            removeCaravana(caravana.getId());
+        }else {
+            int perdeTrip=caravana.getTripulacaoAtual()* 0.10;
+            caravana.removeTripulacao(perdeTrip);
+            cout<<"A caravana "<<caravana.getId()<< " sobreviveu mas so sobra "<<caravana.getTripulacaoAtual()<<" tripulantes"<<endl;
+        }
     }
-    else {
-        chanceSobreviver=75;
-    }
-    int random=rand()%100+1;
-    if (random>chanceSobreviver) {
-        cout<<"A caravana "<<caravana.getId()<<" foi destruida por uma tempestade"<<endl;
-        removeCaravana(caravana.getId());
-    } else {
-        int perdeCarga=cargaOcupada* 0.25;
-        caravana.adicionaMercadoria(-perdeCarga);
-        cout<<"A caravana "<<caravana.getId()<< " sobreviveu mas so sobra "<<caravana.getMercadoriaAtual()<<" toneladas de mercadoria"<<endl;
-    }
+
 }
 
