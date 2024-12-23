@@ -621,6 +621,7 @@ void Deserto::atualizaCaravana() {
         }
         caravana->gastaAgua();
         caravana->setMovimentos();
+
     }
 
     int randomIndex = rand() % direcoes.size();

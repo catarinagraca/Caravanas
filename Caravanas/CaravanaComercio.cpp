@@ -5,13 +5,20 @@
 #include "CaravanaComercio.h"
 
 void CaravanaComercio::gastaAgua()  {
+    if (getAguaAtual()==0) {
+            removeTripulacao(1);
+            resetAgua();
+    }else {
+        if (getTripulacaoAtual()==0) {
+            alteraAgua(0);
 
-    if (getTripulacaoAtual()<getTripulacaoMaxima()/2) {
-        alteraAgua(-1);
-    }else if (getTripulacaoAtual()==0) {
-        alteraAgua(0);
+        }else if (getTripulacaoAtual()<getTripulacaoMaxima()/2) {
+            alteraAgua(-1);
+        }else {
+            alteraAgua(-2);
+        }
     }
-    alteraAgua(-2);
+
 
 }
 

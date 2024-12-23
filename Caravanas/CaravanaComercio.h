@@ -10,7 +10,7 @@
 class CaravanaComercio :public Caravana{
 
 public:
-CaravanaComercio(position pos):Caravana(20,200,20,20,0,40,pos,'C',2){};
+CaravanaComercio(position pos):Caravana(2,200,20,20,0,40,pos,'C',2){};
 
     void gastaAgua() override;
     void setMovimentos() override;

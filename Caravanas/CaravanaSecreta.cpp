@@ -13,6 +13,10 @@ void CaravanaSecreta::gastaAgua() {
         alteraAgua(-1);
     }
     alteraAgua(-3);
+    if (getAgua()==0) {
+
+        removeTripulacao(1);
+    }
 
 }
 

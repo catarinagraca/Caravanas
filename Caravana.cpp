@@ -118,5 +118,8 @@ int Caravana::setMoves(int movimentos) {
     return numMovimentos=movimentos;
 }
 
+void Caravana::resetAgua() {
+    agua=0;
+}
 
 

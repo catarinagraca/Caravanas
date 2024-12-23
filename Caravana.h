@@ -47,7 +47,8 @@ public:
     void changeAutoMoveFalse();
     void alteraAgua(int valor);
     int  setMoves(int movimentos);
-    void removeCaravana();
+    void resetAgua();
+
 
      virtual void gastaAgua()=0;
     virtual void setMovimentos()=0;
