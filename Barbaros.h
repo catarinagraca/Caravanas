@@ -13,12 +13,14 @@ private:
     int numBarbaros;
     position pos;
     bool combateEmAndamento;
+    int numTurnosRestantes;
 
     static int idBarbaros;
 
 public:
     Barbaros(position posicao):numBarbaros(40),pos(posicao),id(idBarbaros++) {
         combateEmAndamento=false;
+        numTurnosRestantes=60;
     };
 
     int getBarbaros();
@@ -27,7 +29,8 @@ public:
     void setPos(position posicao);
     int removeTripulacao(int trip) ;
     void setComabte(bool combate);
-
+    void setInstantes();
+    int getInstantes();
 
 };
 

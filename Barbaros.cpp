@@ -26,3 +26,11 @@ int Barbaros::removeTripulacao(int trip) {
 void Barbaros::setComabte(bool combate) {
     combateEmAndamento=combate;
 }
+void Barbaros::setInstantes() {
+    numTurnosRestantes--;
+}
+
+int Barbaros::getInstantes() {
+    return numTurnosRestantes;
+}
+
