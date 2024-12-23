@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iosfwd>
+#include <string.h>
 #include <vector>
 
 #include "Caravanas/CaravanaComercio.h"
@@ -593,25 +594,6 @@ bool Deserto::verificaMovimento(int linha, int coluna) {
     return true;
 }
 
-void Deserto::pontuacao() {
-    cout << "pontuacao final:" << endl;
-    cout << "Regresso a fase 1";
-}
-
-
-void Deserto::tempestadeAreia(int linha, int coluna, int raio) {
-    posTempestadeAreia.clear(); //limpar posições de outras tempestades
-
-    for (int i = linha - raio; i <= linha + raio; ++i) {
-        for (int j = coluna - raio; j <= coluna + raio; ++j) {
-            posTempestadeAreia.push_back({i, j});
-        }
-    }
-    // for (const auto& p : posTempestadeAreia) {
-    //    cout << "(" << p.linha << ", " << p.coluna << ")" <<endl;
-    // }
-}
-
 void Deserto::ativarAutomove(int id) {
     for (auto &caravana: caravanas) {
         if (caravana->getId() == id) {
@@ -644,8 +626,9 @@ void Deserto::atualizaCaravana() {
         caravana->gastaAgua();
         caravana->setMovimentos();
 
-    }
 
+    }
+    verificaTempestade();
     int randomIndex = rand() % direcoes.size();
     moveBarbaro(direcoes[randomIndex]);
 }
@@ -787,7 +770,7 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
             // barbaro.adicionaAgua(caravana.getAgua());
             removeCaravana(caravana.getId()); // Remover a caravana destruída
             barbaro.setComabte(false);
-            cout << "A caravana foi destruída. Sua água foi transferida para o bárbaro." << endl;
+            cout << "A caravana foi destruida. Sua agua foi transferida para o barbaro." << endl;
             // break;
         }
     }
@@ -878,3 +861,74 @@ void Deserto::deleteSave(string &nome) {
     cout<<"Nao existe nenhuma copia com esse nome"<<endl;
     }
 }
+
+
+
+void Deserto::pontuacao() {
+    cout << "pontuacao final:" << endl;
+    cout << "Regresso a fase 1";
+}
+
+
+void Deserto::tempestadeAreia(int linha, int coluna, int raio) {
+    posTempestadeAreia.clear(); //limpar posições de outras tempestades
+
+    for (int i = linha - raio; i <= linha + raio; ++i) {
+        for (int j = coluna - raio; j <= coluna + raio; ++j) {
+            posTempestadeAreia.push_back({i, j});
+        }
+    }
+    // for (const auto& p : posTempestadeAreia) {
+    //    cout << "(" << p.linha << ", " << p.coluna << ")" <<endl;
+    // }
+}
+
+
+//teho q usar um iterador explicito pois da outra maneira não atualiza o ponteiro e tenta acessar a memoria invalida
+void Deserto::verificaTempestade() {
+    for (auto it = caravanas.begin(); it != caravanas.end(); ++it) {
+        position posCaravana = (*it)->getPos();
+
+
+        for (const auto &pos : posTempestadeAreia) {
+            if (posCaravana.coluna == pos.coluna && posCaravana.linha == pos.linha) {
+                danoTempestade(**it);
+            }
+        }
+        // ++it;
+
+    }
+    // for (auto &caravana: caravanas) {
+    //     position posCaravana=caravana->getPos();
+    //     for (auto pos: posTempestadeAreia) {
+    //         if (posCaravana.coluna==pos.coluna && posCaravana.linha==pos.linha) {
+    //             danoTempestade(*caravana);
+    //         }
+    //
+    //     }
+    // }
+}
+
+void Deserto::danoTempestade(Caravana &caravana) {
+    int cargaMaxima=caravana.getMercadoriaMaxima();
+    int cargaOcupada=caravana.getMercadoriaAtual();
+
+    float percentagemOcupada =(float)cargaOcupada/cargaMaxima*100;
+    int chanceSobreviver;
+    if (percentagemOcupada>50) {
+        chanceSobreviver=50;
+    }
+    else {
+        chanceSobreviver=75;
+    }
+    int random=rand()%100+1;
+    if (random>chanceSobreviver) {
+        cout<<"A caravana "<<caravana.getId()<<" foi destruida por uma tempestade"<<endl;
+        removeCaravana(caravana.getId());
+    } else {
+        int perdeCarga=cargaOcupada* 0.25;
+        caravana.adicionaMercadoria(-perdeCarga);
+        cout<<"A caravana "<<caravana.getId()<< " sobreviveu mas so sobra "<<caravana.getMercadoriaAtual()<<" toneladas de mercadoria"<<endl;
+    }
+}
+

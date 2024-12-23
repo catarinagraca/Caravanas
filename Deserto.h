@@ -75,6 +75,8 @@ public:
     void loadBuffer(string &nome);
     void listaSaves();
     void deleteSave(string &nome);
+    void verificaTempestade();
+    void danoTempestade(Caravana &caravana);
 
 };
 
