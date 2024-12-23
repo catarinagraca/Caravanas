@@ -25,4 +25,14 @@ add_executable(TrabalhoPratico main.cpp
         Barbaros.cpp
         Barbaros.h
         Barbaros.cpp
+        Itens.cpp
+        Itens.h
+        Itens/CaixaPandora.cpp
+        Itens/CaixaPandora.h
+        Itens/ArcaTesouro.cpp
+        Itens/ArcaTesouro.h
+        Itens/Jaula.cpp
+        Itens/Jaula.h
+        Itens/Mina.cpp
+        Itens/Mina.h
 )

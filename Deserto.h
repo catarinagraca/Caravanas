@@ -13,6 +13,7 @@
 #include "Barbaros.h"
 #include "Caravana.h"
 #include "Cidade.h"
+#include "Itens.h"
 #include "Montanhas.h"
 
 
@@ -29,7 +30,7 @@ private:
     vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
     vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
     map<string, Buffer> bufferGuardados; // Nome e cópia do buffer
-    // bool combateEmAndamento;
+    vector<unique_ptr<Itens>> itens;
 
     static int instantes;
 
@@ -79,6 +80,9 @@ public:
     void danoTempestade(Caravana &caravana);
     void danoTempestadeB(Barbaros &barbaro);
     position posAleatoria();
+    void adicionarItem();
+    void verificarItens();
+    void atualizarItens();
 };
 
 

@@ -13,6 +13,10 @@
 #include "Caravanas/CaravanaMilitar.h"
 #include "Caravanas/CaravanaSecreta.h"
 #include "Caravana.h"
+#include "Itens/ArcaTesouro.h"
+#include "Itens/CaixaPandora.h"
+#include "Itens/Jaula.h"
+#include "Itens/Mina.h"
 using namespace std;
 
 void Deserto::lerFicheiro(string &nome) {
@@ -572,6 +576,10 @@ void Deserto::atualizaBuffer() {
     for (auto cidade: cidades) {
         buffer.setChar(cidade.getPos().linha, cidade.getPos().coluna, cidade.getChar());
     }
+    for (auto &item: itens) {
+        buffer.setChar(item->getPos().linha, item->getPos().coluna, '?');
+    }
+
 }
 
 bool Deserto::verificaMovimento(int linha, int coluna) {
@@ -731,17 +739,25 @@ void Deserto::porximoInstantes(int numInstantes) {
     if (instantes%instantes_entre_novos_barbaros==0) {
         adicionaBarbaros(posAleatoria());
     }
+    if (instantes%instantes_entre_novos_itens==0 && itens.size()<5) {
+        adicionarItem();
+    }
     if (numInstantes > 1) {
         for (int i = 0; i < numInstantes; i++) {
             atualizaCaravana();
             atualizaBuffer();
             buffer.render();
+            verificarItens();
+            atualizarItens();
+
 
         }
 
     }else {
         atualizaCaravana();
         atualizaBuffer();
+        verificarItens();
+        atualizarItens();
         buffer.render();
     }
 
@@ -985,4 +1001,66 @@ position Deserto::posAleatoria() {
 
 
     return posAleatoria;
+}
+
+void Deserto::adicionarItem() {
+    if (itens.size() >= 5) return; // Não adiciona mais de 5 itens
+
+    position pos;
+    do {
+        pos = posAleatoria();
+    } while (!verificaMovimento(pos.linha, pos.coluna)); // Garante posição válida
+
+    int tipo = rand() % 4; // Sorteia o tipo do item
+    // int tipo=0;
+    switch (tipo) {
+        case 0: {
+            // itens.push_back(make_unique<CaixaPandora>(pos, 20));
+            auto temp = make_unique<CaixaPandora>(pos,20);
+            itens.emplace_back(move(temp));
+            break;
+        }
+        case 1: {
+            auto temp = make_unique<ArcaTesouro>(pos,20);
+            itens.emplace_back(move(temp));
+            break;
+        }
+        case 2: {
+            auto temp = make_unique<ArcaTesouro>(pos,20);
+            itens.emplace_back(move(temp));
+            break;
+        }
+        case 3: {
+            auto temp = make_unique<ArcaTesouro>(pos,20);
+            itens.emplace_back(move(temp));
+            break;
+        }
+        // case 4: itens.push_back(std::make_unique<Surpresa>(pos, 20)); break;
+    }
+}
+
+void Deserto::verificarItens() {
+    for (auto &caravana : caravanas) {
+        position posCaravana = caravana->getPos();
+        for (auto it = itens.begin(); it != itens.end(); ) {
+            if (adjacente(posCaravana, (*it)->getPos())) {
+                (*it)->efeito(*caravana); // Aplica o efeito do item
+                it = itens.erase(it); // Remove o item após ser apanhado
+            } else {
+                ++it;
+            }
+        }
+    }
+}
+
+void Deserto::atualizarItens() {
+    for (auto it = itens.begin(); it != itens.end(); ) {
+        (*it)->instantesRestantes();
+
+        if ((*it)->getInstantes() == 0) {
+            it = itens.erase(it); // Remove itens expirados
+        } else {
+            ++it;
+        }
+    }
 }
