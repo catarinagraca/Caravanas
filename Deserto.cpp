@@ -229,6 +229,28 @@ bool Deserto::lerComando(int &fase) {
             // atualizaCaravana();
             // atualizaBuffer();
             // buffer.render();
+        }else if (comando == "saves") {
+            if (argumentos.size() != 1) {
+                cout << "Falta argumentos (exemplo saves <nomeSave>)" << endl;
+                return false;
+            }saveBuffer(argumentos[0]);
+        }
+        else if (comando == "loads") {
+            if (argumentos.size() != 1) {
+                cout << "Falta argumentos (exemplo loads <nomeSave>)" << endl;
+                return false;
+            }loadBuffer(argumentos[0]);
+        }
+        else if (comando == "lists") {
+            if (argumentos.size() != 0) {
+                cout << "Argumentos a mais" << endl;
+                return false;
+            }listaSaves();
+        }else if (comando == "dels") {
+            if (argumentos.size() != 1) {
+                cout << "Falta argumentos (exemplo dels <nomeSave>)" << endl;
+                return false;
+            }deleteSave(argumentos[0]);
         }
         return true;
     }
@@ -655,7 +677,7 @@ void Deserto::moveBarbaro(string direcao) {
         }
         if (distanciaMinima > 1) {
             if (encontrouCaravana) {
-                cout << "encontra caravana" << endl;
+                // cout << "encontra caravana" << endl;
                 if (posAtual.linha < alvoCaravana.linha) {
                     novaPos.linha += 1; // Move para baixo
                 } else if (posAtual.linha > alvoCaravana.linha) {
@@ -697,10 +719,10 @@ void Deserto::moveBarbaro(string direcao) {
         if ((verificaMovimento(novaPos.linha, novaPos.coluna))) {
             barbaro.setPos(novaPos); // Atualiza a posição da caravana
             atualizaBuffer();
-            cout << "netra no for" << endl;
+            // cout << "netra no for" << endl;
             for (const auto &caravana: caravanas) {
                 if (adjacente(novaPos, caravana->getPos())) {
-                    cout << "netra no if" << endl;
+                    // cout << "netra no if" << endl;
                     barbaro.setComabte(true);
                     combate(barbaro, *caravana);
 
@@ -814,4 +836,45 @@ void Deserto::removeBarbaro(Barbaros &barbaro) {
         }
     }
     std::cout << "Bárbaro não encontrado na lista." << std::endl;
+}
+
+
+void Deserto::saveBuffer(string &nome) {
+    if (bufferGuardados.find(nome)!=bufferGuardados.end()) {
+        cout<<"ja existe uma copia com esse nome"<<endl;
+    }
+    bufferGuardados.insert(make_pair(nome,buffer));
+    cout<<"copia guardada"<<endl;
+
+}
+
+void Deserto::loadBuffer(string &nome) {
+    auto it = bufferGuardados.find(nome);
+    if (it == bufferGuardados.end()) {
+        cout << " Nao existe nenhuma copia com esse nome " <<endl;
+    }
+    Buffer temp = it->second;
+
+    temp.render();
+}
+
+void Deserto::listaSaves() {
+    if (bufferGuardados.empty()) {
+        cout<<"Nao existem copias guardadas"<<endl;
+    }
+    else {
+        cout<<"Lista de Saves----------"<<endl;
+        for (auto save: bufferGuardados) {
+            cout<<save.first<<endl;
+
+        }
+    }
+}
+
+void Deserto::deleteSave(string &nome) {
+    if (bufferGuardados.erase(nome)) {
+        cout<<"Copia apagada"<<endl;
+    }else{
+    cout<<"Nao existe nenhuma copia com esse nome"<<endl;
+    }
 }

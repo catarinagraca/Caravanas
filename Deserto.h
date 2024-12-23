@@ -28,6 +28,7 @@ private:
     vector<position> posTempestadeAreia;
     vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
     vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
+    map<string, Buffer> bufferGuardados; // Nome e cópia do buffer
     // bool combateEmAndamento;
 
     static int instantes;
@@ -70,6 +71,10 @@ public:
     void combate(Barbaros &barbaro,Caravana &caravana);
     void removeCaravana(int id) ;
     void removeBarbaro( Barbaros& barbaro);
+    void saveBuffer(string &nome) ;
+    void loadBuffer(string &nome);
+    void listaSaves();
+    void deleteSave(string &nome);
 
 };
 
