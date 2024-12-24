@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-void Jaula::efeito(Caravana &caravana) {
+void Jaula::efeito(Caravana &caravana, Deserto &deserto) {
 
     int novosTripulantes = min(caravana.getTripulacaoMaxima() - caravana.getTripulacaoAtual(), 10);
     caravana.adicionaTripulacao(novosTripulantes);

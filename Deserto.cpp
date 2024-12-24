@@ -267,6 +267,10 @@ void Deserto::listaPrecoMercadorias() {
     cout << "Preco de compra de mercadoria: " << preço_compra_mercadoria << endl;
 }
 
+int Deserto::getMoedas() {
+    return moedas;
+}
+
 void Deserto::acrescentaMoedas(int N) {
     moedas += N;
 
@@ -1011,8 +1015,8 @@ void Deserto::adicionarItem() {
         pos = posAleatoria();
     } while (!verificaMovimento(pos.linha, pos.coluna)); // Garante posição válida
 
-    int tipo = rand() % 4; // Sorteia o tipo do item
-    // int tipo=0;
+    // int tipo = rand() % 4; // Sorteia o tipo do item
+     int tipo=3;
     switch (tipo) {
         case 0: {
             // itens.push_back(make_unique<CaixaPandora>(pos, 20));
@@ -1026,12 +1030,12 @@ void Deserto::adicionarItem() {
             break;
         }
         case 2: {
-            auto temp = make_unique<ArcaTesouro>(pos,20);
+            auto temp = make_unique<Jaula>(pos,20);
             itens.emplace_back(move(temp));
             break;
         }
         case 3: {
-            auto temp = make_unique<ArcaTesouro>(pos,20);
+            auto temp = make_unique<Mina>(pos,20);
             itens.emplace_back(move(temp));
             break;
         }
@@ -1040,17 +1044,28 @@ void Deserto::adicionarItem() {
 }
 
 void Deserto::verificarItens() {
-    for (auto &caravana : caravanas) {
-        position posCaravana = caravana->getPos();
-        for (auto it = itens.begin(); it != itens.end(); ) {
-            if (adjacente(posCaravana, (*it)->getPos())) {
-                (*it)->efeito(*caravana); // Aplica o efeito do item
-                it = itens.erase(it); // Remove o item após ser apanhado
+    for (auto itC = caravanas.begin(); itC != caravanas.end(); ++itC) {
+        position posCaravana = (*itC)->getPos();
+        for (auto itI = itens.begin(); itI != itens.end(); ) {
+            if (adjacente(posCaravana, (*itI)->getPos())) {
+                (*itI)->efeito(**itC,*this); // Aplica o efeito do item
+                itI = itens.erase(itI); // Remove o item após ser apanhado
             } else {
-                ++it;
+                ++itI;
             }
         }
     }
+    // for (auto &caravana : caravanas) {
+    //     position posCaravana = caravana->getPos();
+    //     for (auto it = itens.begin(); it != itens.end(); ) {
+    //         if (adjacente(posCaravana, (*it)->getPos())) {
+    //             (*it)->efeito(*caravana,*this); // Aplica o efeito do item
+    //             it = itens.erase(it); // Remove o item após ser apanhado
+    //         } else {
+    //             ++it;
+    //         }
+    //     }
+    // }
 }
 
 void Deserto::atualizarItens() {

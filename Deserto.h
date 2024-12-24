@@ -24,13 +24,13 @@ private:
     int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
     preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
     vector <Cidade> cidades;
-    vector<unique_ptr<Caravana>> caravanas;
+    vector<unique_ptr<Caravana>> caravanas;//ponteiro por causa do polimorfismo
     vector<Montanhas> montanhas;
     vector<position> posTempestadeAreia;
-    vector<Barbaros> caravanaBarbaros;  //talvez usar map para terem uma chave???
+    vector<Barbaros> caravanaBarbaros;// como têm todos o mesmo comportamento n preciso de ids
     vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
     map<string, Buffer> bufferGuardados; // Nome e cópia do buffer
-    vector<unique_ptr<Itens>> itens;
+    vector<unique_ptr<Itens>> itens; //ponteiro por causa do polimorfismo
 
     static int instantes;
 
@@ -43,6 +43,7 @@ public:
     void adicionaCidade(char c,position pos);
     void listaPrecoMercadorias();
     void acrescentaMoedas(int N);
+    int getMoedas();
     void procuraCaravana();
     int adicionaCaravana(char c,position pos);
     void procuraCaravanaComId(int id);

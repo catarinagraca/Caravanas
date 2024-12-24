@@ -11,7 +11,7 @@ class Jaula :public Itens{
 public:
     Jaula(position pos,int duracao):Itens(pos,duracao){}
 
-    void efeito(Caravana &caravana) override;
+    void efeito(Caravana &caravana, Deserto &deserto) override;
 
 
 };

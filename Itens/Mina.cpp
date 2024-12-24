@@ -7,7 +7,10 @@
 #include <iostream>
 #include <ostream>
 
-void Mina::efeito(Caravana &caravana) {
+#include "../Deserto.h"
+
+void Mina::efeito(Caravana &caravana, Deserto &deserto) {
         cout << "Mina! A caravana foi destruída!" << endl;
+        deserto.removeCaravana(caravana.getId());
 
 }

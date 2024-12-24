@@ -11,7 +11,7 @@ class Mina:public  Itens{
 public:
     Mina(position pos,int duracao):Itens(pos,duracao){}
 
-    void efeito(Caravana &caravana) override;
+    void efeito(Caravana &caravana, Deserto &deserto) override;
 };
 
 

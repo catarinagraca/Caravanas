@@ -9,7 +9,7 @@
 
 #include "../Caravana.h"
 
-void CaixaPandora::efeito(Caravana &caravana) {
+void CaixaPandora::efeito(Caravana &caravana, Deserto &deserto) {
 
     caravana.removeTripulacao(caravana.getTripulacaoAtual()*0.2);
     cout << "Caixa de Pandora! 20% da tripulação foi dizimada." << endl;
