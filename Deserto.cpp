@@ -875,6 +875,7 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
     }
     if (sorteioBarbaro < sorteioCaravana) {
         cout << "a Caravana venceu" << endl;
+        combatesVencidos++;
         int perdaCaravana = caravana.getTripulacaoAtual() * 0.2;
         int perdaBarbaro = perdaCaravana * 2;
 
@@ -966,9 +967,11 @@ void Deserto::deleteSave(string &nome) {
 void Deserto::pontuacao() {
     cout << "Pontuacao final:" << endl;
     cout<<"Numero de instantes decorridos: "<<instantes<<endl;
+    cout<<"Numero de combates vencidos: "<<combatesVencidos<<endl;
     cout<<"Numero de moedas que sobram: "<<moedas<<endl;
     cout << "Regresso a fase 1\n";
     instantes=0;
+    combatesVencidos=0;
     cidades.clear();
     montanhas.clear();
     bufferGuardados.clear();

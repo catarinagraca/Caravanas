@@ -22,7 +22,7 @@ private:
     Buffer buffer;
     //int linhas, colunas;
     int moedas,instantes_entre_novos_itens,duração_item,max_itens,preço_venda_mercadoria,preço_compra_mercadoria,
-    preço_caravana,instantes_entre_novos_barbaros,duração_barbaros;
+    preço_caravana,instantes_entre_novos_barbaros,duração_barbaros, combatesVencidos;
     vector <Cidade> cidades;
     vector<unique_ptr<Caravana>> caravanas;//ponteiro por causa do polimorfismo
     vector<Montanhas> montanhas;
@@ -35,7 +35,7 @@ private:
     static int instantes;
 
 public:
-    Deserto(): buffer(){}
+    Deserto(): buffer(){combatesVencidos=0;}
 
     void lerFicheiro(string &nome);
     bool lerComando( int &fase);
