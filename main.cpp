@@ -8,24 +8,15 @@ int main()
 
     int fase=1;
     Deserto deserto;
-    // string nome="mapa.txt";
-    // deserto.lerFicheiro(nome);
 
-
-    //deserto.printCidade();
-    /*deserto.listaPrecoMercadorias();
-    deserto.acrescentaMoedas(100);
-    deserto.acrescentaMoedas(-210);*/
-
-    while (fase) {
+    do {
+        if (fase==1) {
+            Caravana::resetID();  //como é static posso fazer isto
+        }
         deserto.lerComando(fase);
-        //cout<<fase<<endl;
-    }
+    }while (fase !=0);
 
 
-    // deserto.procuraCaravana();
-    //
-    // deserto.procuraCaravanaComId(3);
 
 
     return 0;

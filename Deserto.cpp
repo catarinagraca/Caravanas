@@ -17,6 +17,7 @@
 #include "Itens/CaixaPandora.h"
 #include "Itens/Jaula.h"
 #include "Itens/Mina.h"
+#include "Itens/Poco.h"
 using namespace std;
 
 void Deserto::lerFicheiro(string &nome) {
@@ -361,15 +362,17 @@ void Deserto::procuraCaravana() {
 }
 
 int Deserto::adicionaCaravana(char c, position pos) {
-    int id;
+   int id;
     if (c == 'M') {
         auto temp = make_unique<CaravanaMilitar>(pos);
         id = temp->getId();
+        cout<<"id da compra"<<id<<endl;
         caravanas.emplace_back(move(temp));
     }
     if (c == 'C') {
         auto temp = make_unique<CaravanaComercio>(pos);
         id = temp->getId();
+        
         caravanas.emplace_back(move(temp));
         // CaravanaComercio temp=CaravanaComercio(pos);
         // id = temp.getId();
@@ -629,14 +632,40 @@ void Deserto::desativarAutomove(int id) {
 
 void Deserto::atualizaCaravana() {
     // vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
-    for (auto &caravana: caravanas) {
-        if (caravana->getAutomove() && caravana->getTipo() == 'C') {
+    for (auto it = caravanas.begin(); it != caravanas.end(); ++it){
+    // for (auto &caravana: caravanas) {
+        if ((*it)->getAutomove() && (*it)->getTipo() == 'C') {
             // Gera um índice aleatório simples
             int randomIndex = rand() % direcoes.size();
-            moveCaravana(caravana->getId(), direcoes[randomIndex]);
+            moveCaravana((*it)->getId(), direcoes[randomIndex]);
         }
-        caravana->gastaAgua();
-        caravana->setMovimentos();
+        //procura uma barbara
+        // if ((*it)->getAutomove() && (*it)->getTipo() == 'M') {
+        //     position posAtual = ca.getPos(); // Obtém a posição atual da caravana
+        //     position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
+        //     if ()
+        //
+        // }
+
+        // caravana comercio---move-se de forma aleatória e passados 5 instantes a caravana desaparece.
+        if ((*it)->getTripulacaoAtual()==0 && (*it)->getTipo() == 'C' ) {
+                int randomIndex = rand() % direcoes.size();
+                moveCaravana((*it)->getId(), direcoes[randomIndex]);
+                (*it)->alteraInstantes();
+                if ((*it)->getInstantes()==0) removeCaravana((*it)->getId());
+
+        }
+
+        //caravana militar---sempre na direçao do ultimo movimento e desaparece 7 instantes depois.
+        if ((*it)->getTripulacaoAtual()==0 && (*it)->getTipo() == 'M' ) {
+            (*it)->alteraInstantes();
+            if ((*it)->getInstantes()==0) removeCaravana((*it)->getId());
+        }
+
+
+
+        (*it)->gastaAgua();
+        (*it)->setMovimentos();
 
 
     }
@@ -714,7 +743,6 @@ void Deserto::moveBarbaro(string direcao) {
         if ((verificaMovimento(novaPos.linha, novaPos.coluna))) {
             barbaro.setPos(novaPos); // Atualiza a posição da caravana
             atualizaBuffer();
-            // cout << "netra no for" << endl;
             for (const auto &caravana: caravanas) {
                 if (adjacente(novaPos, caravana->getPos())) {
                     // cout << "netra no if" << endl;
@@ -723,12 +751,22 @@ void Deserto::moveBarbaro(string direcao) {
 
                     // cout << "Barbaro esta adjacente a uma caravana!" << endl;
 
-                    break; // Para de procurar, pois encontramos uma caravana adjacente
+                    break; // Para de procurar
                 }
             }
-            // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
         } else {
-            cout << "Movimento invalido! lolitos" << endl;
+            for (auto monntanha: montanhas) { //se a montanha estiver á frente
+                if (  posAtual.linha -1 == monntanha.getPos().linha && posAtual.coluna ==monntanha.getPos().coluna) {
+                    novaPos.coluna += 1;
+                    novaPos.linha=posAtual.linha;
+                }
+            }
+            if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
+                barbaro.setPos(novaPos);
+                atualizaBuffer();
+            }
+
+
         }
 
         barbaro.setInstantes();
@@ -753,6 +791,7 @@ void Deserto::porximoInstantes(int numInstantes) {
             buffer.render();
             verificarItens();
             atualizarItens();
+            gameOver();
 
 
         }
@@ -763,6 +802,7 @@ void Deserto::porximoInstantes(int numInstantes) {
         verificarItens();
         atualizarItens();
         buffer.render();
+        gameOver();
     }
 
     cout << instantes << endl;
@@ -790,7 +830,7 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
 
         barbaro.removeTripulacao(perdaBarbaro);
         caravana.removeTripulacao(perdaCaravana);
-
+        cout<<caravana.getTripulacaoAtual()<<endl;
         // Transferência de água da caravana para o bárbaro se a caravana for destruída
         if (caravana.getTripulacaoAtual() <= 0) {
             // barbaro.adicionaAgua(caravana.getAgua());
@@ -813,7 +853,7 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
             // barbaro.adicionaAgua(caravana.getAgua());
             removeBarbaro(barbaro); // Remover a caravana destruída
             barbaro.setComabte(false);
-            cout << "A caravana foi destruída. Sua água foi transferida para o bárbaro." << endl;
+            cout << "o barbaro foi destruída. Sua água foi transferida para a caravana." << endl;
             // break;
         }
     }
@@ -891,8 +931,18 @@ void Deserto::deleteSave(string &nome) {
 
 
 void Deserto::pontuacao() {
-    cout << "pontuacao final:" << endl;
-    cout << "Regresso a fase 1";
+    cout << "Pontuacao final:" << endl;
+    cout<<"Numero de instantes decorridos: "<<instantes<<endl;
+    cout<<"Numero de moedas que sobram: "<<moedas<<endl;
+    cout << "Regresso a fase 1\n";
+    instantes=0;
+    cidades.clear();
+    montanhas.clear();
+    bufferGuardados.clear();
+    posTempestadeAreia.clear();
+    itens.clear();
+    caravanaBarbaros.clear();
+    caravanas.clear();
 }
 
 
@@ -910,7 +960,7 @@ void Deserto::tempestadeAreia(int linha, int coluna, int raio) {
 }
 
 
-//teho q usar um iterador explicito pois da outra maneira não atualiza o ponteiro e tenta acessar a memoria invalida
+//teho q usar um iterador explicito pois da outra maneira não atualiza o ponteiro e tenta acessar a memoria invalida (quando apago caravanas...)
 void Deserto::verificaTempestade() {
     for (auto it = caravanas.begin(); it != caravanas.end(); ++it) {
         position posCaravana = (*it)->getPos();
@@ -922,22 +972,13 @@ void Deserto::verificaTempestade() {
             }
         }
     }
-    // for (auto &caravana: caravanas) {
-    //     position posCaravana=caravana->getPos();
-    //     for (auto pos: posTempestadeAreia) {
-    //         if (posCaravana.coluna==pos.coluna && posCaravana.linha==pos.linha) {
-    //             danoTempestade(*caravana);
-    //         }
-    //
-    //     }
-    // }
-    for (auto it = caravanaBarbaros.begin(); it != caravanaBarbaros.end(); ++it) {
-        position posCaravana = (*it).getPos();
+    for (auto itB = caravanaBarbaros.begin(); itB != caravanaBarbaros.end(); ++itB) {
+        position posCaravana = (*itB).getPos();
 
 
         for (const auto &pos : posTempestadeAreia) {
             if (posCaravana.coluna == pos.coluna && posCaravana.linha == pos.linha) {
-                danoTempestadeB(*it);
+                danoTempestadeB(*itB);
             }
         }
     }
@@ -1015,8 +1056,8 @@ void Deserto::adicionarItem() {
         pos = posAleatoria();
     } while (!verificaMovimento(pos.linha, pos.coluna)); // Garante posição válida
 
-    // int tipo = rand() % 4; // Sorteia o tipo do item
-     int tipo=3;
+    int tipo = rand() % 4; // Sorteia o tipo do item
+     // int tipo=3;
     switch (tipo) {
         case 0: {
             // itens.push_back(make_unique<CaixaPandora>(pos, 20));
@@ -1039,7 +1080,11 @@ void Deserto::adicionarItem() {
             itens.emplace_back(move(temp));
             break;
         }
-        // case 4: itens.push_back(std::make_unique<Surpresa>(pos, 20)); break;
+        case 4: {
+            auto temp = make_unique<Poco>(pos,20);
+            itens.emplace_back(move(temp));
+            break;
+        }
     }
 }
 
@@ -1077,5 +1122,13 @@ void Deserto::atualizarItens() {
         } else {
             ++it;
         }
+    }
+}
+
+void Deserto::gameOver() {
+    if (caravanas.empty() && moedas<preço_caravana) {
+        cout<<"Ficou sem caravanas e sem dinheiro para comprar mais!!!\n"<<endl;
+        pontuacao();
+
     }
 }

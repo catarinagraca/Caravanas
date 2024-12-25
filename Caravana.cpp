@@ -13,7 +13,7 @@
 
 int Caravana:: idCaravana=1; //inicializa a ordem dos ids
 
-Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c, int moves) {
+Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax, position pos,char c, int moves, int instantes) {
     id=idCaravana++;
     agua=aguaa;
     capacidadeAgua=capacidade;
@@ -25,6 +25,7 @@ Caravana:: Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercad
     tipo=c;
     automove=false;         //0 n está ativado
     numMovimentos=moves;
+    instantesRestantes=instantes;
 }
 
 
@@ -78,8 +79,9 @@ int Caravana::adicionaTripulacao(int trip) {
     return numTripulantes= trip+numTripulantes;
 }
 
-int Caravana::removeTripulacao(int trip) {
-    return numTripulantes= numTripulantes-trip;
+void Caravana::removeTripulacao(int trip) {
+    numTripulantes= numTripulantes-trip;
+    if (numTripulantes<=0) numTripulantes=0;
 }
 
 
@@ -122,4 +124,12 @@ void Caravana::resetAgua() {
     agua=0;
 }
 
+
+int Caravana::getInstantes() {
+    return instantesRestantes;
+}
+
+void Caravana::alteraInstantes() {
+    instantesRestantes--;
+}
 

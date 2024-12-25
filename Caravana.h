@@ -20,14 +20,16 @@ private:
     char tipo;
     bool automove;
     int numMovimentos;
+    int instantesRestantes;
 
 
     static int  idCaravana;//para incrementar
 
 public:
-    Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo, int moves);
+    Caravana(int aguaa,int capacidade,int numTrip, int tripMax,int mercadoria,int mercMax,position pos, char tipo, int moves, int instantes);
     // ~Caravana();
     position getPos();
+    static void resetID() { idCaravana = 1; }
     int getId();
     char getTipo();
     int getAgua();
@@ -39,7 +41,7 @@ public:
     int adicionaMercadoria(int toneladas);
     int getTripulacaoMaxima() ;
     int adicionaTripulacao(int trip);
-    int removeTripulacao(int trip);
+    void removeTripulacao(int trip);
     int reabasteceAgua();
     void setPos(position pos);
     bool getAutomove();
@@ -48,6 +50,9 @@ public:
     void alteraAgua(int valor);
     int  setMoves(int movimentos);
     void resetAgua();
+    int getInstantes();
+    void alteraInstantes();
+
 
 
      virtual void gastaAgua()=0;

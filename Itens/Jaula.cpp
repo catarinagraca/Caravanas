@@ -8,7 +8,7 @@
 
 void Jaula::efeito(Caravana &caravana, Deserto &deserto) {
 
-    int novosTripulantes = min(caravana.getTripulacaoMaxima() - caravana.getTripulacaoAtual(), 10);
+    int novosTripulantes =caravana.getTripulacaoMaxima() - caravana.getTripulacaoAtual();
     caravana.adicionaTripulacao(novosTripulantes);
     cout << "Jaula! " << novosTripulantes << " prisioneiros se juntaram a tripulacao." << endl;
 }

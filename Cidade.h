@@ -31,6 +31,8 @@ public:
     position getPos();
     void conteudoCidade();
     bool compraCaravana(char tipo);
+    // int getCaravanasRestantes();
+
 
 
 

@@ -84,6 +84,7 @@ public:
     void adicionarItem();
     void verificarItens();
     void atualizarItens();
+    void gameOver();
 };
 
 

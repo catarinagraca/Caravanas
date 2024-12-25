@@ -37,6 +37,7 @@ bool Cidade::compraCaravana(char tipo) {
             if(caravana.first==toupper(tipo)) {
 
                 caravana.second=1;
+                // caravanasDisponiveisParaVenda--;
                 return true;
                 //caravanasParaCompra.erase(caravana.first);
             }
@@ -47,3 +48,6 @@ bool Cidade::compraCaravana(char tipo) {
 
 }
 
+// int Cidade::getCaravanasRestantes() {
+//     return caravanasDisponiveisParaVenda;
+// }
