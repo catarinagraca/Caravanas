@@ -12,5 +12,5 @@
 void Poco::efeito(Caravana &caravana, Deserto &deserto) {
     int novaAgua=caravana.getAgua()-caravana.getAguaAtual();
     caravana.alteraAgua(novaAgua);
-    cout<<"A caravana passou por um poço e ganhou "<<caravana.getAgua()<<"litros de água"<<endl;
+    cout<<"A caravana passou por um poço! Ganhou "<<caravana.getAgua()<<"litros de água"<<endl;
 }

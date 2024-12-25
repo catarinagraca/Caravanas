@@ -23,7 +23,7 @@ using namespace std;
 void Deserto::lerFicheiro(string &nome) {
     ifstream file(nome);
     if (!file.is_open()) {
-        cout << "Erro: o ficheiro não foi aberto" << endl;
+        cout << "Erro: o ficheiro nao foi aberto" << endl;
     }
 
     string espaco;
@@ -374,9 +374,6 @@ int Deserto::adicionaCaravana(char c, position pos) {
         id = temp->getId();
         
         caravanas.emplace_back(move(temp));
-        // CaravanaComercio temp=CaravanaComercio(pos);
-        // id = temp.getId();
-        // caravanas.emplace_back(make_unique<CaravanaComercio>(pos));
     }
     if (c == 'S') {
         auto temp = make_unique<CaravanaSecreta>(pos);
@@ -474,7 +471,7 @@ void Deserto::vendeMercadoria(int id) {
                         acrescentaMoedas(mercadoriaAtual * preço_venda_mercadoria); // Calcula e adiciona as moedas
                         cout << "Mercadoria vendida com sucesso!" << endl;
                     } else {
-                        cout << "A caravana não possui mercadoria para vender." << endl;
+                        cout << "A caravana nao possui mercadoria para vender." << endl;
                     }
                     return;
                 }
@@ -542,7 +539,7 @@ void Deserto::moveCaravana(int id, string direcao) {
                 novaPos.coluna += 1;
             } // Baixo-Direita
             else {
-                cout << "Direção inválida!" << endl;
+                cout << "Direcao invalida" << endl;
                 return;
             }
 
@@ -565,7 +562,7 @@ void Deserto::moveCaravana(int id, string direcao) {
         }
     }
 
-    cout << "Caravana com ID " << id << " não encontrada!" << endl;
+    cout << "Caravana com ID " << id << " nao encontrada!" << endl;
 }
 
 
@@ -639,15 +636,52 @@ void Deserto::atualizaCaravana() {
             int randomIndex = rand() % direcoes.size();
             moveCaravana((*it)->getId(), direcoes[randomIndex]);
         }
-        //procura uma barbara
-        // if ((*it)->getAutomove() && (*it)->getTipo() == 'M') {
-        //     position posAtual = ca.getPos(); // Obtém a posição atual da caravana
-        //     position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
-        //     if ()
-        //
-        // }
+        //procura uma barbara a 6 posições senão fica parada
+        if ((*it)->getAutomove() && (*it)->getTipo() == 'M') {
+            position posAtual = (*it)->getPos();
+            position novaPos = posAtual;
+            position alvoBarbaro;
+            int distanciaMinima = 9999;
+            bool encontrouBarbaro = false;
 
-        // caravana comercio---move-se de forma aleatória e passados 5 instantes a caravana desaparece.
+            // Procura pelo bárbaro mais próximo dentro do alcance
+            for (auto &barbaro : caravanaBarbaros) {
+                position posBarbaro = barbaro.getPos();
+                int distanciaLinha = abs(posAtual.linha - posBarbaro.linha);
+                int distanciaColuna = abs(posAtual.coluna - posBarbaro.coluna);
+
+                // Verifica se está dentro do alcance em linha ou coluna
+                if ((distanciaLinha <= 6 && distanciaColuna == 0) || (distanciaColuna <= 6 && distanciaLinha == 0)) {
+                    int distanciaTotal = distanciaLinha + distanciaColuna;
+                    if (distanciaTotal < distanciaMinima) {
+                        alvoBarbaro = posBarbaro;
+                        distanciaMinima = distanciaTotal;
+                        encontrouBarbaro = true;
+                    }
+                }
+            }
+
+            // Movimento para perseguir o bárbaro
+            if (encontrouBarbaro && distanciaMinima > 1) {
+                if (posAtual.linha < alvoBarbaro.linha) {
+                    novaPos.linha += 1; // Move para baixo
+                } else if (posAtual.linha > alvoBarbaro.linha) {
+                    novaPos.linha -= 1; // Move para cima
+                } else if (posAtual.coluna < alvoBarbaro.coluna) {
+                    novaPos.coluna += 1; // Move para a direita
+                } else if (posAtual.coluna > alvoBarbaro.coluna) {
+                    novaPos.coluna -= 1; // Move para a esquerda
+                }
+
+                // Verifica se o movimento é válido
+                if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
+                    (*it)->setPos(novaPos); // Atualiza a posição da caravana
+                    atualizaBuffer();       // Atualiza o mapa/estado
+                }
+            }
+        }
+
+        // caravana comercio(sem tripulantes)---move-se de forma aleatória e passados 5 instantes a caravana desaparece.
         if ((*it)->getTripulacaoAtual()==0 && (*it)->getTipo() == 'C' ) {
                 int randomIndex = rand() % direcoes.size();
                 moveCaravana((*it)->getId(), direcoes[randomIndex]);
@@ -656,7 +690,7 @@ void Deserto::atualizaCaravana() {
 
         }
 
-        //caravana militar---sempre na direçao do ultimo movimento e desaparece 7 instantes depois.
+        //caravana militar(sem tripulantes)---sempre na direçao do ultimo movimento e desaparece 7 instantes depois.
         if ((*it)->getTripulacaoAtual()==0 && (*it)->getTipo() == 'M' ) {
             (*it)->alteraInstantes();
             if ((*it)->getInstantes()==0) removeCaravana((*it)->getId());
@@ -733,7 +767,7 @@ void Deserto::moveBarbaro(string direcao) {
                     novaPos.coluna += 1;
                 } // Baixo-Direita
                 else {
-                    cout << "Direção inválida!" << endl;
+                    cout << "Direacao invalida!" << endl;
                     return;
                 }
             }
@@ -805,7 +839,7 @@ void Deserto::porximoInstantes(int numInstantes) {
         gameOver();
     }
 
-    cout << instantes << endl;
+    cout <<"instante: "<< instantes << endl;
 }
 
 int Deserto::instantes = 0;
@@ -830,7 +864,6 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
 
         barbaro.removeTripulacao(perdaBarbaro);
         caravana.removeTripulacao(perdaCaravana);
-        cout<<caravana.getTripulacaoAtual()<<endl;
         // Transferência de água da caravana para o bárbaro se a caravana for destruída
         if (caravana.getTripulacaoAtual() <= 0) {
             // barbaro.adicionaAgua(caravana.getAgua());
@@ -853,7 +886,7 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
             // barbaro.adicionaAgua(caravana.getAgua());
             removeBarbaro(barbaro); // Remover a caravana destruída
             barbaro.setComabte(false);
-            cout << "o barbaro foi destruída. Sua água foi transferida para a caravana." << endl;
+            cout << "o barbaro foi destruido. Sua agua foi transferida para a caravana." << endl;
             // break;
         }
     }
@@ -870,7 +903,7 @@ void Deserto::removeCaravana(int id) {
         caravanas.erase(it, caravanas.end());
         cout << "Caravana com ID " << id << " removida do deserto." << endl;
     } else {
-        cout << "Caravana com ID " << id << " não encontrada para remoção." << endl;
+        cout << "Caravana com ID " << id << " nao encontrada para remocao." << endl;
     }
     // combateEmAndamento=false;
 }
@@ -880,11 +913,11 @@ void Deserto::removeBarbaro(Barbaros &barbaro) {
         if (&(*it) == &barbaro) {
             // Verifica se os endereços coincidem (mesmo objeto)
             caravanaBarbaros.erase(it); // Remove o bárbaro da lista
-            std::cout << "Bárbaro removido com sucesso." << std::endl;
+            std::cout << "Barbaro removido com sucesso." << std::endl;
             return; // Saia do loop após remover o bárbaro
         }
     }
-    std::cout << "Bárbaro não encontrado na lista." << std::endl;
+    std::cout << "Barbaro nao encontrado na lista." << std::endl;
 }
 
 

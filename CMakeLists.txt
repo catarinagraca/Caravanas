@@ -37,4 +37,5 @@ add_executable(TrabalhoPratico main.cpp
         Itens/Mina.h
         Itens/Poco.cpp
         Itens/Poco.h
+        Itens/CaixaPandora.cpp
 )
