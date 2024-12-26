@@ -10,7 +10,7 @@
 #include "../Deserto.h"
 
 void Mina::efeito(Caravana &caravana, Deserto &deserto) {
-        cout << "Mina! A caravana foi destruída!" << endl;
+        cout << "Mina! A caravana foi destruida!" << endl;
         deserto.removeCaravana(caravana.getId());
 
 }

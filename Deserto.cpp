@@ -366,7 +366,6 @@ int Deserto::adicionaCaravana(char c, position pos) {
     if (c == 'M') {
         auto temp = make_unique<CaravanaMilitar>(pos);
         id = temp->getId();
-        cout<<"id da compra"<<id<<endl;
         caravanas.emplace_back(move(temp));
     }
     if (c == 'C') {
@@ -631,10 +630,69 @@ void Deserto::atualizaCaravana() {
     // vector<string> direcoes = {"D", "E", "C", "B", "CE", "CD", "BE", "BD"};
     for (auto it = caravanas.begin(); it != caravanas.end(); ++it){
     // for (auto &caravana: caravanas) {
+
+        //procura outra caravana e apanha itens num raio de 2 posições
         if ((*it)->getAutomove() && (*it)->getTipo() == 'C') {
-            // Gera um índice aleatório simples
-            int randomIndex = rand() % direcoes.size();
-            moveCaravana((*it)->getId(), direcoes[randomIndex]);
+            // // Gera um índice aleatório simples
+            // int randomIndex = rand() % direcoes.size();
+            // moveCaravana((*it)->getId(), direcoes[randomIndex]);
+            position posCaravana = (*it)->getPos();
+            bool moved = false;
+
+            // Tenta se mover em direção a um item
+            for (const auto &item : itens) {
+                if (item) { // Verifica se o unique_ptr não é nulo
+                    position posItem = item->getPos();
+                    int distanciaLinha = abs(posItem.linha - posCaravana.linha);
+                    int distanciaColuna = abs(posItem.coluna - posCaravana.coluna);
+
+                    if (distanciaLinha <= 2 && distanciaColuna <= 2) {
+                        if (posItem.linha > posCaravana.linha) {
+                            moveCaravana((*it)->getId(), "B");
+                        } else if (posItem.linha < posCaravana.linha) {
+                            moveCaravana((*it)->getId(), "C");
+                        } else if (posItem.coluna > posCaravana.coluna) {
+                            moveCaravana((*it)->getId(), "D");
+                        } else if (posItem.coluna < posCaravana.coluna) {
+                            moveCaravana((*it)->getId(), "E");
+                        }
+                        moved = true;
+                        break; // Sai do loop de itens após mover em direção a um item
+                    }
+                }
+            }
+
+            // Tenta se aproximar de outra caravana se não tiver movido para um item
+            if (!moved) {
+                for (const auto &outraCaravana : caravanas) {
+                    if (outraCaravana->getId() != (*it)->getId()) {
+                        position posOutraCaravana = outraCaravana->getPos();
+
+                        if (adjacente(posCaravana, posOutraCaravana)) {
+                            // Já está próximo; não é necessário mover
+                            moved = true;
+                            break;
+                        }
+
+                        // Move-se na direção da outra caravana
+                        if (!moved) {
+                            if (posOutraCaravana.linha > posCaravana.linha) {
+                                moveCaravana((*it)->getId(), "B");
+                                moved = true;
+                            } else if (posOutraCaravana.linha < posCaravana.linha) {
+                                moveCaravana((*it)->getId(), "C");
+                                moved = true;
+                            } else if (posOutraCaravana.coluna > posCaravana.coluna) {
+                                moveCaravana((*it)->getId(), "D");
+                                moved = true;
+                            } else if (posOutraCaravana.coluna < posCaravana.coluna) {
+                                moveCaravana((*it)->getId(), "E");
+                                moved = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
         //procura uma barbara a 6 posições senão fica parada
         if ((*it)->getAutomove() && (*it)->getTipo() == 'M') {
