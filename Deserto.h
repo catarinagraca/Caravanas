@@ -39,6 +39,7 @@ public:
 
     void lerFicheiro(string &nome);
     bool lerComando( int &fase);
+    bool processaComando(const string& linha, int &fase) ;
     void procuraCidadeeAdicionaBuffer();
     void adicionaCidade(char c,position pos);
     void listaPrecoMercadorias();

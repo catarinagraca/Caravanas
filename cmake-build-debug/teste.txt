@@ -1,0 +1,8 @@
+prox 2
+comprac c c
+cidade c
+move 5 C
+prox
+areia 3 3 3
+prox 5
+terminar

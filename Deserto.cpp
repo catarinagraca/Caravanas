@@ -85,7 +85,6 @@ void Deserto::lerFicheiro(string &nome) {
     procuraMontanha();
     procuraBarbaros();
 }
-
 bool Deserto::lerComando(int &fase) {
     string linha, comando;
     vector<string> argumentos;
@@ -102,10 +101,11 @@ bool Deserto::lerComando(int &fase) {
     while (iss >> argumento) {
         argumentos.push_back(argumento);
     }
+
     if (comando.empty()) {
-        //cout<<"Insira comando novamente:"<<endl;
         return false;
     }
+
     if (fase == 1) {
         if (comando == "config") {
             if (argumentos.size() != 1) {
@@ -123,145 +123,389 @@ bool Deserto::lerComando(int &fase) {
             return false;
         }
     }
+
     if (fase == 2) {
-        if (comando == "precos") {
-            if (argumentos.size() != 0) {
-                cout << "Argumentos a mais!" << endl;
-                return false;
-            }
-            listaPrecoMercadorias();
-            return true;
-        } else if (comando == "moedas") {
+        // Comando exec
+        if (comando == "exec") {
             if (argumentos.size() != 1) {
-                cout << "Falta segundo argumento (exemplo moedas <valor>)" << endl;
+                cout << "Falta argumento (exemplo exec <nomeFicheiro>)" << endl;
                 return false;
             }
-            acrescentaMoedas(stoi(argumentos[0]));
+
+            string nomeFicheiro = argumentos[0];
+            ifstream arquivo(nomeFicheiro);
+            if (!arquivo.is_open()) {
+                cout << "Erro ao abrir o arquivo " << nomeFicheiro << endl;
+                return false;
+            }
+
+            // Ler o arquivo linha por linha e processar cada comando
+            while (getline(arquivo, linha)) {
+                // Ignorar linhas vazias ou comentários (caso haja)
+                if (linha.empty() || linha[0] == '#') {
+                    continue;
+                }
+
+                // Chamar a função para processar o comando
+                if (!processaComando(linha, fase)) {
+                    cout << "Erro ao processar o comando do arquivo: " << linha << endl;
+                    return false;
+                }
+            }
+            arquivo.close();
             return true;
-        } else if (comando == "caravana") {
-            if (argumentos.size() != 1) {
-                cout << "Falta segundo argumento (exemplo caravana <idCaravana>)" << endl;
-                return false;
-            }
-            procuraCaravanaComId(stoi(argumentos[0]));
-            return true;
-        } else if (comando == "cidade") {
-            if (argumentos.size() != 1) {
-                cout << "Falta segundo argumento (exemplo cidade <letraCidade>)" << endl;
-                return false;
-            }
-            listaCidade(argumentos[0][0]/*, cidades*/); //tenho q acedersó há primeira posição pq é uma string
-            return true;
-        } else if (comando == "comprac") {
-            if (argumentos.size() != 2) {
-                cout << "Falta argumentos (exemplo comprac <letraCidade> <tipoCaravana>)" << endl;
-                return false;
-            }
-            compraCaravana(argumentos[0][0], argumentos[1][0]); //tenho q acedersó há primeira posição pq é uma string
-            return true;
-        } else if (comando == "compra") {
-            if (argumentos.size() != 2) {
-                cout << "Falta argumentos (exemplo compra <idCaravana> <numToneladas>)" << endl;
-                return false;
-            }
-            compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1]));
-            return true;
-        } else if (comando == "vende") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo vende <idCaravana>)" << endl;
-                return false;
-            }
-            vendeMercadoria(stoi(argumentos[0]));
-            return true;
-        } else if (comando == "tripul") {
-            if (argumentos.size() != 2) {
-                cout << "Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)" << endl;
-                return false;
-            }
-            compraTripulantes((stoi(argumentos[0])), stoi(argumentos[1])); //stoi transforma char em int
-            return true;
-        } else if (comando == "move") {
-            if (argumentos.size() != 2) {
-                cout << "Falta argumentos (exemplo move <idCaravana> <direcao>)" << endl;
-                return false;
-            }
-            moveCaravana((stoi(argumentos[0])), argumentos[1]);
-            // buffer.render();
-            return true;
-        } else if (comando == "terminar") {
-            pontuacao();
-            fase = 1;
-        } else if (comando == "areia") {
-            if (argumentos.size() != 3) {
-                cout << "Falta argumentos (exemplo areia <x> <y> <raio>)" << endl;
-                return false;
-            }
-            tempestadeAreia(stoi(argumentos[0]), stoi(argumentos[1]), stoi(argumentos[2]));
-        } else if (comando == "barbaro") {
-            if (argumentos.size() != 2) {
-                cout << "Falta argumentos (exemplo barbaro <x> <y>)" << endl;
-                return false;
-            }
-            adicionaBarbaros({stoi(argumentos[0]), stoi(argumentos[1])});
-            atualizaBuffer();
-            buffer.render();
-        } else if (comando == "auto") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
-                return false;
-            }
-            ativarAutomove(stoi(argumentos[0]));
-            atualizaCaravana();
-            // atualizaBuffer();
-            // buffer.render();
-        } else if (comando == "stop") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
-                return false;
-            }
-            desativarAutomove(stoi(argumentos[0]));
-            atualizaCaravana();
-            // atualizaBuffer();
-            // buffer.render();
-        } else if (comando == "prox") {
-            if (argumentos.size() > 1) {
-                cout << "argumentos a mais (exemplo prox <numInstantes>)" << endl;
-                return false;
-            }
-            if (argumentos.empty()) porximoInstantes();
-            else {
-                porximoInstantes(stoi(argumentos[0]));
-            }
-            // atualizaCaravana();
-            // atualizaBuffer();
-            // buffer.render();
-        }else if (comando == "saves") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo saves <nomeSave>)" << endl;
-                return false;
-            }saveBuffer(argumentos[0]);
         }
-        else if (comando == "loads") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo loads <nomeSave>)" << endl;
-                return false;
-            }loadBuffer(argumentos[0]);
+
+        // Para outros comandos digitados diretamente, utilizamos a mesma função
+        if (!processaComando(linha, fase)) {
+            return false;
         }
-        else if (comando == "lists") {
-            if (argumentos.size() != 0) {
-                cout << "Argumentos a mais" << endl;
-                return false;
-            }listaSaves();
-        }else if (comando == "dels") {
-            if (argumentos.size() != 1) {
-                cout << "Falta argumentos (exemplo dels <nomeSave>)" << endl;
-                return false;
-            }deleteSave(argumentos[0]);
-        }
-        return true;
     }
     return false;
 }
+// Função para processar os comandos
+bool Deserto::processaComando(const string& linha, int &fase) {
+    string comando;
+    vector<string> argumentos;
+
+    // Processar a linha como se fosse um comando digitado
+    istringstream iss(linha);
+    iss >> comando;
+
+    // Lê as palavras restantes e armazena no array 'argumentos'
+    string argumento;
+    while (iss >> argumento) {
+        argumentos.push_back(argumento);
+    }
+
+    if (comando == "config") {
+        if (argumentos.size() != 1) {
+            cout << "Falta segundo argumento (exemplo config <nomeFicheiro>)" << endl;
+            return false;
+        }
+        lerFicheiro(argumentos[0]);
+        fase = 2;
+        return true;
+    } else if (comando == "sair") {
+        fase = 0;
+        return false;
+    } else if (comando == "precos") {
+        if (argumentos.size() != 0) {
+            cout << "Argumentos a mais!" << endl;
+            return false;
+        }
+        listaPrecoMercadorias();
+        return true;
+    } else if (comando == "moedas") {
+        if (argumentos.size() != 1) {
+            cout << "Falta segundo argumento (exemplo moedas <valor>)" << endl;
+            return false;
+        }
+        acrescentaMoedas(stoi(argumentos[0]));
+        return true;
+    } else if (comando == "caravana") {
+        if (argumentos.size() != 1) {
+            cout << "Falta segundo argumento (exemplo caravana <idCaravana>)" << endl;
+            return false;
+        }
+        procuraCaravanaComId(stoi(argumentos[0]));
+        return true;
+    } else if (comando == "cidade") {
+        if (argumentos.size() != 1) {
+            cout << "Falta segundo argumento (exemplo cidade <letraCidade>)" << endl;
+            return false;
+        }
+        listaCidade(argumentos[0][0]); // Acessa a primeira posição da string
+        return true;
+    } else if (comando == "comprac") {
+        if (argumentos.size() != 2) {
+            cout << "Falta argumentos (exemplo comprac <letraCidade> <tipoCaravana>)" << endl;
+            return false;
+        }
+        compraCaravana(argumentos[0][0], argumentos[1][0]); // Acessa as primeiras posições
+        return true;
+    } else if (comando == "compra") {
+        if (argumentos.size() != 2) {
+            cout << "Falta argumentos (exemplo compra <idCaravana> <numToneladas>)" << endl;
+            return false;
+        }
+        compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1]));
+        return true;
+    } else if (comando == "vende") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo vende <idCaravana>)" << endl;
+            return false;
+        }
+        vendeMercadoria(stoi(argumentos[0]));
+        return true;
+    } else if (comando == "tripul") {
+        if (argumentos.size() != 2) {
+            cout << "Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)" << endl;
+            return false;
+        }
+        compraTripulantes(stoi(argumentos[0]), stoi(argumentos[1]));
+        return true;
+    } else if (comando == "move") {
+        if (argumentos.size() != 2) {
+            cout << "Falta argumentos (exemplo move <idCaravana> <direcao>)" << endl;
+            return false;
+        }
+        moveCaravana(stoi(argumentos[0]), argumentos[1]);
+        return true;
+    } else if (comando == "terminar") {
+        pontuacao();
+        fase = 1;
+        return true;
+    } else if (comando == "areia") {
+        if (argumentos.size() != 3) {
+            cout << "Falta argumentos (exemplo areia <x> <y> <raio>)" << endl;
+            return false;
+        }
+        tempestadeAreia(stoi(argumentos[0]), stoi(argumentos[1]), stoi(argumentos[2]));
+        return true;
+    } else if (comando == "barbaro") {
+        if (argumentos.size() != 2) {
+            cout << "Falta argumentos (exemplo barbaro <x> <y>)" << endl;
+            return false;
+        }
+        adicionaBarbaros({stoi(argumentos[0]), stoi(argumentos[1])});
+        atualizaBuffer();
+        buffer.render();
+        return true;
+    } else if (comando == "auto") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
+            return false;
+        }
+        ativarAutomove(stoi(argumentos[0]));
+        atualizaCaravana();
+        return true;
+    } else if (comando == "stop") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
+            return false;
+        }
+        desativarAutomove(stoi(argumentos[0]));
+        atualizaCaravana();
+        return true;
+    } else if (comando == "prox") {
+        if (argumentos.size() > 1) {
+            cout << "argumentos a mais (exemplo prox <numInstantes>)" << endl;
+            return false;
+        }
+        if (argumentos.empty()) porximoInstantes();
+        else {
+            porximoInstantes(stoi(argumentos[0]));
+        }
+        return true;
+    } else if (comando == "saves") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo saves <nomeSave>)" << endl;
+            return false;
+        }
+        saveBuffer(argumentos[0]);
+        return true;
+    } else if (comando == "loads") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo loads <nomeSave>)" << endl;
+            return false;
+        }
+        loadBuffer(argumentos[0]);
+        return true;
+    } else if (comando == "lists") {
+        if (argumentos.size() != 0) {
+            cout << "Argumentos a mais" << endl;
+            return false;
+        }
+        listaSaves();
+        return true;
+    } else if (comando == "dels") {
+        if (argumentos.size() != 1) {
+            cout << "Falta argumentos (exemplo dels <nomeSave>)" << endl;
+            return false;
+        }
+        deleteSave(argumentos[0]);
+        return true;
+    }
+
+    return false;
+}
+// bool Deserto::lerComando(int &fase) {
+//     string linha, comando;
+//     vector<string> argumentos;
+//
+//     cout << "\nInsira comando:" << endl;
+//
+//     getline(cin, linha);
+//     istringstream iss(linha);
+//
+//     iss >> comando;
+//
+//     // Lê as palavras restantes e armazena no array 'argumentos'
+//     string argumento;
+//     while (iss >> argumento) {
+//         argumentos.push_back(argumento);
+//     }
+//     if (comando.empty()) {
+//         //cout<<"Insira comando novamente:"<<endl;
+//         return false;
+//     }
+//     if (fase == 1) {
+//         if (comando == "config") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta segundo argumento (exemplo config <nomeFicheiro>)" << endl;
+//                 return false;
+//             }
+//             lerFicheiro(argumentos[0]);
+//             fase = 2;
+//             return true;
+//         } else if (comando == "sair") {
+//             fase = 0;
+//             return false;
+//         } else {
+//             cout << "Comando desconhecido" << endl;
+//             return false;
+//         }
+//     }
+//     if (fase == 2) {
+//         if (comando == "precos") {
+//             if (argumentos.size() != 0) {
+//                 cout << "Argumentos a mais!" << endl;
+//                 return false;
+//             }
+//             listaPrecoMercadorias();
+//             return true;
+//         } else if (comando == "moedas") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta segundo argumento (exemplo moedas <valor>)" << endl;
+//                 return false;
+//             }
+//             acrescentaMoedas(stoi(argumentos[0]));
+//             return true;
+//         } else if (comando == "caravana") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta segundo argumento (exemplo caravana <idCaravana>)" << endl;
+//                 return false;
+//             }
+//             procuraCaravanaComId(stoi(argumentos[0]));
+//             return true;
+//         } else if (comando == "cidade") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta segundo argumento (exemplo cidade <letraCidade>)" << endl;
+//                 return false;
+//             }
+//             listaCidade(argumentos[0][0]/*, cidades*/); //tenho q acedersó há primeira posição pq é uma string
+//             return true;
+//         } else if (comando == "comprac") {
+//             if (argumentos.size() != 2) {
+//                 cout << "Falta argumentos (exemplo comprac <letraCidade> <tipoCaravana>)" << endl;
+//                 return false;
+//             }
+//             compraCaravana(argumentos[0][0], argumentos[1][0]); //tenho q acedersó há primeira posição pq é uma string
+//             return true;
+//         } else if (comando == "compra") {
+//             if (argumentos.size() != 2) {
+//                 cout << "Falta argumentos (exemplo compra <idCaravana> <numToneladas>)" << endl;
+//                 return false;
+//             }
+//             compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1]));
+//             return true;
+//         } else if (comando == "vende") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo vende <idCaravana>)" << endl;
+//                 return false;
+//             }
+//             vendeMercadoria(stoi(argumentos[0]));
+//             return true;
+//         } else if (comando == "tripul") {
+//             if (argumentos.size() != 2) {
+//                 cout << "Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)" << endl;
+//                 return false;
+//             }
+//             compraTripulantes((stoi(argumentos[0])), stoi(argumentos[1])); //stoi transforma char em int
+//             return true;
+//         } else if (comando == "move") {
+//             if (argumentos.size() != 2) {
+//                 cout << "Falta argumentos (exemplo move <idCaravana> <direcao>)" << endl;
+//                 return false;
+//             }
+//             moveCaravana((stoi(argumentos[0])), argumentos[1]);
+//             // buffer.render();
+//             return true;
+//         } else if (comando == "terminar") {
+//             pontuacao();
+//             fase = 1;
+//         } else if (comando == "areia") {
+//             if (argumentos.size() != 3) {
+//                 cout << "Falta argumentos (exemplo areia <x> <y> <raio>)" << endl;
+//                 return false;
+//             }
+//             tempestadeAreia(stoi(argumentos[0]), stoi(argumentos[1]), stoi(argumentos[2]));
+//         } else if (comando == "barbaro") {
+//             if (argumentos.size() != 2) {
+//                 cout << "Falta argumentos (exemplo barbaro <x> <y>)" << endl;
+//                 return false;
+//             }
+//             adicionaBarbaros({stoi(argumentos[0]), stoi(argumentos[1])});
+//             atualizaBuffer();
+//             buffer.render();
+//         } else if (comando == "auto") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
+//                 return false;
+//             }
+//             ativarAutomove(stoi(argumentos[0]));
+//             atualizaCaravana();
+//             // atualizaBuffer();
+//             // buffer.render();
+//         } else if (comando == "stop") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
+//                 return false;
+//             }
+//             desativarAutomove(stoi(argumentos[0]));
+//             atualizaCaravana();
+//             // atualizaBuffer();
+//             // buffer.render();
+//         } else if (comando == "prox") {
+//             if (argumentos.size() > 1) {
+//                 cout << "argumentos a mais (exemplo prox <numInstantes>)" << endl;
+//                 return false;
+//             }
+//             if (argumentos.empty()) porximoInstantes();
+//             else {
+//                 porximoInstantes(stoi(argumentos[0]));
+//             }
+//             // atualizaCaravana();
+//             // atualizaBuffer();
+//             // buffer.render();
+//         }else if (comando == "saves") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo saves <nomeSave>)" << endl;
+//                 return false;
+//             }saveBuffer(argumentos[0]);
+//         }
+//         else if (comando == "loads") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo loads <nomeSave>)" << endl;
+//                 return false;
+//             }loadBuffer(argumentos[0]);
+//         }
+//         else if (comando == "lists") {
+//             if (argumentos.size() != 0) {
+//                 cout << "Argumentos a mais" << endl;
+//                 return false;
+//             }listaSaves();
+//         }else if (comando == "dels") {
+//             if (argumentos.size() != 1) {
+//                 cout << "Falta argumentos (exemplo dels <nomeSave>)" << endl;
+//                 return false;
+//             }deleteSave(argumentos[0]);
+//         }
+//         return true;
+//     }
+//     return false;
+// }
 
 void Deserto::listaPrecoMercadorias() {
     cout << "Preco de venda de mercadoria: " << preço_venda_mercadoria << endl;
