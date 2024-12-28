@@ -47,7 +47,3 @@ bool Cidade::compraCaravana(char tipo) {
     return false;
 
 }
-
-// int Cidade::getCaravanasRestantes() {
-//     return caravanasDisponiveisParaVenda;
-// }

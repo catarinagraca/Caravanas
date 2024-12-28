@@ -163,16 +163,16 @@ bool Deserto::lerComando(int &fase) {
     }
     return false;
 }
-// Função para processar os comandos
+
 bool Deserto::processaComando(const string& linha, int &fase) {
     string comando;
     vector<string> argumentos;
 
-    // Processar a linha como se fosse um comando digitado
+
     istringstream iss(linha);
     iss >> comando;
 
-    // Lê as palavras restantes e armazena no array 'argumentos'
+
     string argumento;
     while (iss >> argumento) {
         argumentos.push_back(argumento);
@@ -229,7 +229,7 @@ bool Deserto::processaComando(const string& linha, int &fase) {
             cout << "Falta argumentos (exemplo compra <idCaravana> <numToneladas>)" << endl;
             return false;
         }
-        compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1]));
+        compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1])); //stoi char to int
         return true;
     } else if (comando == "vende") {
         if (argumentos.size() != 1) {
@@ -330,182 +330,6 @@ bool Deserto::processaComando(const string& linha, int &fase) {
 
     return false;
 }
-// bool Deserto::lerComando(int &fase) {
-//     string linha, comando;
-//     vector<string> argumentos;
-//
-//     cout << "\nInsira comando:" << endl;
-//
-//     getline(cin, linha);
-//     istringstream iss(linha);
-//
-//     iss >> comando;
-//
-//     // Lê as palavras restantes e armazena no array 'argumentos'
-//     string argumento;
-//     while (iss >> argumento) {
-//         argumentos.push_back(argumento);
-//     }
-//     if (comando.empty()) {
-//         //cout<<"Insira comando novamente:"<<endl;
-//         return false;
-//     }
-//     if (fase == 1) {
-//         if (comando == "config") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta segundo argumento (exemplo config <nomeFicheiro>)" << endl;
-//                 return false;
-//             }
-//             lerFicheiro(argumentos[0]);
-//             fase = 2;
-//             return true;
-//         } else if (comando == "sair") {
-//             fase = 0;
-//             return false;
-//         } else {
-//             cout << "Comando desconhecido" << endl;
-//             return false;
-//         }
-//     }
-//     if (fase == 2) {
-//         if (comando == "precos") {
-//             if (argumentos.size() != 0) {
-//                 cout << "Argumentos a mais!" << endl;
-//                 return false;
-//             }
-//             listaPrecoMercadorias();
-//             return true;
-//         } else if (comando == "moedas") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta segundo argumento (exemplo moedas <valor>)" << endl;
-//                 return false;
-//             }
-//             acrescentaMoedas(stoi(argumentos[0]));
-//             return true;
-//         } else if (comando == "caravana") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta segundo argumento (exemplo caravana <idCaravana>)" << endl;
-//                 return false;
-//             }
-//             procuraCaravanaComId(stoi(argumentos[0]));
-//             return true;
-//         } else if (comando == "cidade") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta segundo argumento (exemplo cidade <letraCidade>)" << endl;
-//                 return false;
-//             }
-//             listaCidade(argumentos[0][0]/*, cidades*/); //tenho q acedersó há primeira posição pq é uma string
-//             return true;
-//         } else if (comando == "comprac") {
-//             if (argumentos.size() != 2) {
-//                 cout << "Falta argumentos (exemplo comprac <letraCidade> <tipoCaravana>)" << endl;
-//                 return false;
-//             }
-//             compraCaravana(argumentos[0][0], argumentos[1][0]); //tenho q acedersó há primeira posição pq é uma string
-//             return true;
-//         } else if (comando == "compra") {
-//             if (argumentos.size() != 2) {
-//                 cout << "Falta argumentos (exemplo compra <idCaravana> <numToneladas>)" << endl;
-//                 return false;
-//             }
-//             compraMercadoria(stoi(argumentos[0]), stoi(argumentos[1]));
-//             return true;
-//         } else if (comando == "vende") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo vende <idCaravana>)" << endl;
-//                 return false;
-//             }
-//             vendeMercadoria(stoi(argumentos[0]));
-//             return true;
-//         } else if (comando == "tripul") {
-//             if (argumentos.size() != 2) {
-//                 cout << "Falta argumentos (exemplo tripul <idCaravana> <numTripulantes>)" << endl;
-//                 return false;
-//             }
-//             compraTripulantes((stoi(argumentos[0])), stoi(argumentos[1])); //stoi transforma char em int
-//             return true;
-//         } else if (comando == "move") {
-//             if (argumentos.size() != 2) {
-//                 cout << "Falta argumentos (exemplo move <idCaravana> <direcao>)" << endl;
-//                 return false;
-//             }
-//             moveCaravana((stoi(argumentos[0])), argumentos[1]);
-//             // buffer.render();
-//             return true;
-//         } else if (comando == "terminar") {
-//             pontuacao();
-//             fase = 1;
-//         } else if (comando == "areia") {
-//             if (argumentos.size() != 3) {
-//                 cout << "Falta argumentos (exemplo areia <x> <y> <raio>)" << endl;
-//                 return false;
-//             }
-//             tempestadeAreia(stoi(argumentos[0]), stoi(argumentos[1]), stoi(argumentos[2]));
-//         } else if (comando == "barbaro") {
-//             if (argumentos.size() != 2) {
-//                 cout << "Falta argumentos (exemplo barbaro <x> <y>)" << endl;
-//                 return false;
-//             }
-//             adicionaBarbaros({stoi(argumentos[0]), stoi(argumentos[1])});
-//             atualizaBuffer();
-//             buffer.render();
-//         } else if (comando == "auto") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
-//                 return false;
-//             }
-//             ativarAutomove(stoi(argumentos[0]));
-//             atualizaCaravana();
-//             // atualizaBuffer();
-//             // buffer.render();
-//         } else if (comando == "stop") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo auto <idCaravana>)" << endl;
-//                 return false;
-//             }
-//             desativarAutomove(stoi(argumentos[0]));
-//             atualizaCaravana();
-//             // atualizaBuffer();
-//             // buffer.render();
-//         } else if (comando == "prox") {
-//             if (argumentos.size() > 1) {
-//                 cout << "argumentos a mais (exemplo prox <numInstantes>)" << endl;
-//                 return false;
-//             }
-//             if (argumentos.empty()) porximoInstantes();
-//             else {
-//                 porximoInstantes(stoi(argumentos[0]));
-//             }
-//             // atualizaCaravana();
-//             // atualizaBuffer();
-//             // buffer.render();
-//         }else if (comando == "saves") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo saves <nomeSave>)" << endl;
-//                 return false;
-//             }saveBuffer(argumentos[0]);
-//         }
-//         else if (comando == "loads") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo loads <nomeSave>)" << endl;
-//                 return false;
-//             }loadBuffer(argumentos[0]);
-//         }
-//         else if (comando == "lists") {
-//             if (argumentos.size() != 0) {
-//                 cout << "Argumentos a mais" << endl;
-//                 return false;
-//             }listaSaves();
-//         }else if (comando == "dels") {
-//             if (argumentos.size() != 1) {
-//                 cout << "Falta argumentos (exemplo dels <nomeSave>)" << endl;
-//                 return false;
-//             }deleteSave(argumentos[0]);
-//         }
-//         return true;
-//     }
-//     return false;
-// }
 
 void Deserto::listaPrecoMercadorias() {
     cout << "Preco de venda de mercadoria: " << preço_venda_mercadoria << endl;
@@ -538,7 +362,6 @@ void Deserto::procuraCidadeeAdicionaBuffer() {
                 posicao.coluna = j;
 
                 adicionaCidade(buffer.getChar(i, j), posicao);
-                //cidades.insert(make_pair(buffer.getChar(i,j),posicao)); // Armazena a posição e letra
             }
         }
     }
@@ -566,7 +389,6 @@ void Deserto::procuraMontanha() {
 void Deserto::adicionaMontanha(position pos) {
     Montanhas temp = Montanhas(pos);
     montanhas.push_back(temp);
-    // cout<<"linha"<<pos.linha<<", coluna"<<pos.coluna<<endl;
 }
 
 void Deserto::procuraBarbaros() {
@@ -583,23 +405,22 @@ void Deserto::procuraBarbaros() {
     }
 }
 
-    void Deserto::adicionaBarbaros(position pos) {
-        Barbaros temp = Barbaros(pos);
-        caravanaBarbaros.push_back(temp);
-        // cout<<"linha"<<pos.linha<<", coluna"<<pos.coluna<<endl;
-    }
+void Deserto::adicionaBarbaros(position pos) {
+    Barbaros temp = Barbaros(pos);
+    caravanaBarbaros.push_back(temp);
+
+}
 
 void Deserto::procuraCaravana() {
     for (int i = 0; i < buffer.getlinhas(); i++) {
         for (int j = 0; j < buffer.getColunas(); j++) {
             if (isdigit(buffer.getChar(i, j))) {
-                // Verifica se é uma letra
 
                 position posicao;
                 posicao.linha = i;
                 posicao.coluna = j;
-                //cout<<posicao.linha<<posicao.coluna<<endl;
-                adicionaCaravana('C', posicao);
+                char tipo = "CM"[rand() % 2]; // Sorteia o tipo da caravana
+                adicionaCaravana(tipo, posicao);
             }
         }
     }
@@ -634,7 +455,6 @@ void Deserto::procuraCaravanaComId(int id) {
     for (const auto &caravana: caravanas) {
         if (caravana->getId() == id)
             caravana->printCaravana();
-        // return;caravana
     }
 }
 
@@ -659,7 +479,6 @@ void Deserto::listaCidade(char c) {
     for (auto &caravana: caravanas) {
         if (verificaCoordenadas(c, caravana->getId())) {
             caravana->printCaravana();
-            // atualizaAgua(caravana.getId());
         }
     }
 }
@@ -746,7 +565,7 @@ void Deserto::compraTripulantes(int id, int numTripulantes) {
     cout << "A caravana nao esta numa cidade" << endl;
 }
 
-void Deserto::atualizaAgua(int id) /*const*/ {
+void Deserto::atualizaAgua(int id) {
     for (auto &caravana: caravanas) {
         if (caravana->getId() == id) {
             caravana->reabasteceAgua();
@@ -760,7 +579,7 @@ void Deserto::moveCaravana(int id, string direcao) {
             position posAtual = caravana->getPos(); // Obtém a posição atual da caravana
             position novaPos = posAtual; // Cria uma nova posição para calcular o movimento
 
-            // Calcula o movimento com base na direção fornecida
+
             if (direcao == "D") novaPos.coluna += 1; // Direita
             else if (direcao == "E") novaPos.coluna -= 1; // Esquerda
             else if (direcao == "C") novaPos.linha -= 1; // Cima
@@ -790,7 +609,6 @@ void Deserto::moveCaravana(int id, string direcao) {
             if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
                 caravana->setPos(novaPos); // Atualiza a posição da caravana
                 // cout << "Caravana " << id << " movida para (" << novaPos.linha << ", " << novaPos.coluna << ")." << endl;
-                // gastaAgua();
                 atualizaBuffer();
 
                 for (auto &barbaro: caravanaBarbaros) {
@@ -875,15 +693,11 @@ void Deserto::atualizaCaravana() {
     for (auto it = caravanas.begin(); it != caravanas.end(); ++it){
     // for (auto &caravana: caravanas) {
 
-        //procura outra caravana e apanha itens num raio de 2 posições
+        //comercial--procura outra caravana e apanha itens num raio de 2 posições
         if ((*it)->getAutomove() && (*it)->getTipo() == 'C') {
-            // // Gera um índice aleatório simples
-            // int randomIndex = rand() % direcoes.size();
-            // moveCaravana((*it)->getId(), direcoes[randomIndex]);
             position posCaravana = (*it)->getPos();
             bool moved = false;
 
-            // Tenta se mover em direção a um item
             for (const auto &item : itens) {
                 if (item) { // Verifica se o unique_ptr não é nulo
                     position posItem = item->getPos();
@@ -938,7 +752,7 @@ void Deserto::atualizaCaravana() {
                 }
             }
         }
-        //procura uma barbara a 6 posições senão fica parada
+        //militar -- procura uma barbara a 6 posições senão fica parada
         if ((*it)->getAutomove() && (*it)->getTipo() == 'M') {
             position posAtual = (*it)->getPos();
             position novaPos = posAtual;
@@ -952,7 +766,6 @@ void Deserto::atualizaCaravana() {
                 int distanciaLinha = abs(posAtual.linha - posBarbaro.linha);
                 int distanciaColuna = abs(posAtual.coluna - posBarbaro.coluna);
 
-                // Verifica se está dentro do alcance em linha ou coluna
                 if ((distanciaLinha <= 6 && distanciaColuna == 0) || (distanciaColuna <= 6 && distanciaLinha == 0)) {
                     int distanciaTotal = distanciaLinha + distanciaColuna;
                     if (distanciaTotal < distanciaMinima) {
@@ -975,10 +788,9 @@ void Deserto::atualizaCaravana() {
                     novaPos.coluna -= 1; // Move para a esquerda
                 }
 
-                // Verifica se o movimento é válido
                 if (verificaMovimento(novaPos.linha, novaPos.coluna)) {
-                    (*it)->setPos(novaPos); // Atualiza a posição da caravana
-                    atualizaBuffer();       // Atualiza o mapa/estado
+                    (*it)->setPos(novaPos);
+                    atualizaBuffer();
                 }
             }
         }
@@ -1002,8 +814,6 @@ void Deserto::atualizaCaravana() {
 
         (*it)->gastaAgua();
         (*it)->setMovimentos();
-
-
     }
     verificaTempestade();
     int randomIndex = rand() % direcoes.size();
@@ -1026,8 +836,6 @@ void Deserto::moveBarbaro(string direcao) {
 
             int distanciaTotal = distanciaColuna + distanciaLinha;
             if (distanciaTotal <= 8) {
-                // if ((distanciaLinha <= 8 && distanciaColuna == 0) || (distanciaColuna <= 8 && distanciaLinha == 0)) {
-                // int distanciaTotal = distanciaLinha + distanciaColuna;
                 if (distanciaTotal < distanciaMinima) {
                     alvoCaravana = posCaravana;
                     distanciaMinima = distanciaTotal;
@@ -1077,17 +885,16 @@ void Deserto::moveBarbaro(string direcao) {
 
 
         if ((verificaMovimento(novaPos.linha, novaPos.coluna))) {
-            barbaro.setPos(novaPos); // Atualiza a posição da caravana
+            barbaro.setPos(novaPos);
             atualizaBuffer();
             for (const auto &caravana: caravanas) {
                 if (adjacente(novaPos, caravana->getPos())) {
-                    // cout << "netra no if" << endl;
                     barbaro.setComabte(true);
                     combate(barbaro, *caravana);
 
                     // cout << "Barbaro esta adjacente a uma caravana!" << endl;
 
-                    break; // Para de procurar
+                    break;
                 }
             }
         } else {
@@ -1128,8 +935,6 @@ void Deserto::porximoInstantes(int numInstantes) {
             verificarItens();
             atualizarItens();
             gameOver();
-
-
         }
 
     }else {
@@ -1160,23 +965,21 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
 
     if (sorteioBarbaro > sorteioCaravana) {
         // Bárbaro vence
-        cout << "o Barbaro venceu" << endl;
+        cout << "O Barbaro venceu" << endl;
         int perdaBarbaro = barbaro.getBarbaros() * 0.2;
         int perdaCaravana = perdaBarbaro * 2;
 
         barbaro.removeTripulacao(perdaBarbaro);
         caravana.removeTripulacao(perdaCaravana);
-        // Transferência de água da caravana para o bárbaro se a caravana for destruída
+
         if (caravana.getTripulacaoAtual() <= 0) {
-            // barbaro.adicionaAgua(caravana.getAgua());
-            removeCaravana(caravana.getId()); // Remover a caravana destruída
+            removeCaravana(caravana.getId());
             barbaro.setComabte(false);
             cout << "A caravana foi destruida. Sua agua foi transferida para o barbaro." << endl;
-            // break;
         }
     }
     if (sorteioBarbaro < sorteioCaravana) {
-        cout << "a Caravana venceu" << endl;
+        cout << "A Caravana venceu" << endl;
         combatesVencidos++;
         int perdaCaravana = caravana.getTripulacaoAtual() * 0.2;
         int perdaBarbaro = perdaCaravana * 2;
@@ -1184,13 +987,10 @@ void Deserto::combate(Barbaros &barbaro, Caravana &caravana) {
         caravana.removeTripulacao(perdaCaravana);
         barbaro.removeTripulacao(perdaBarbaro);
 
-        // Transferência de água da caravana para o bárbaro se a caravana for destruída
         if (barbaro.getBarbaros() <= 0) {
-            // barbaro.adicionaAgua(caravana.getAgua());
-            removeBarbaro(barbaro); // Remover a caravana destruída
+            removeBarbaro(barbaro);
             barbaro.setComabte(false);
             cout << "o barbaro foi destruido. Sua agua foi transferida para a caravana." << endl;
-            // break;
         }
     }
 }
@@ -1208,16 +1008,16 @@ void Deserto::removeCaravana(int id) {
     } else {
         cout << "Caravana com ID " << id << " nao encontrada para remocao." << endl;
     }
-    // combateEmAndamento=false;
+
 }
 
 void Deserto::removeBarbaro(Barbaros &barbaro) {
     for (auto it = caravanaBarbaros.begin(); it != caravanaBarbaros.end(); ++it) {
         if (&(*it) == &barbaro) {
             // Verifica se os endereços coincidem (mesmo objeto)
-            caravanaBarbaros.erase(it); // Remove o bárbaro da lista
+            caravanaBarbaros.erase(it);
             std::cout << "Barbaro removido com sucesso." << std::endl;
-            return; // Saia do loop após remover o bárbaro
+            return;
         }
     }
     std::cout << "Barbaro nao encontrado na lista." << std::endl;
@@ -1292,9 +1092,6 @@ void Deserto::tempestadeAreia(int linha, int coluna, int raio) {
             posTempestadeAreia.push_back({i, j});
         }
     }
-    // for (const auto& p : posTempestadeAreia) {
-    //    cout << "(" << p.linha << ", " << p.coluna << ")" <<endl;
-    // }
 }
 
 
@@ -1375,11 +1172,10 @@ void Deserto::danoTempestade(Caravana &caravana) {
 position Deserto::posAleatoria() {
     position posAleatoria;
 
-    // Tente até encontrar uma posição válida
     do {
-        // Gere coordenadas aleatórias dentro dos limites do mapa
-        posAleatoria.linha = rand() % buffer.getlinhas();  // Gerar linha aleatória
-        posAleatoria.coluna = rand() % buffer.getColunas(); // Gerar coluna aleatória
+
+        posAleatoria.linha = rand() % buffer.getlinhas();
+        posAleatoria.coluna = rand() % buffer.getColunas();
     } while (!verificaMovimento(posAleatoria.linha, posAleatoria.coluna));  // Verifica se a posição é válida
 
 
@@ -1389,16 +1185,13 @@ position Deserto::posAleatoria() {
 void Deserto::adicionarItem() {
     if (itens.size() >= 5) return; // Não adiciona mais de 5 itens
 
-    position pos;
-    do {
-        pos = posAleatoria();
-    } while (!verificaMovimento(pos.linha, pos.coluna)); // Garante posição válida
+    position pos=posAleatoria();
+
 
     int tipo = rand() % 4; // Sorteia o tipo do item
      // int tipo=3;
     switch (tipo) {
         case 0: {
-            // itens.push_back(make_unique<CaixaPandora>(pos, 20));
             auto temp = make_unique<CaixaPandora>(pos,20);
             itens.emplace_back(move(temp));
             break;
@@ -1438,17 +1231,6 @@ void Deserto::verificarItens() {
             }
         }
     }
-    // for (auto &caravana : caravanas) {
-    //     position posCaravana = caravana->getPos();
-    //     for (auto it = itens.begin(); it != itens.end(); ) {
-    //         if (adjacente(posCaravana, (*it)->getPos())) {
-    //             (*it)->efeito(*caravana,*this); // Aplica o efeito do item
-    //             it = itens.erase(it); // Remove o item após ser apanhado
-    //         } else {
-    //             ++it;
-    //         }
-    //     }
-    // }
 }
 
 void Deserto::atualizarItens() {

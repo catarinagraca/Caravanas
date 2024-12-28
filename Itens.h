@@ -18,8 +18,9 @@ public:
     Itens(position posicao,int duracao):pos(posicao),instantes(duracao){}
     position getPos();
     void instantesRestantes();
-    virtual void efeito(Caravana &caravana, Deserto &deserto)=0;
     int getInstantes();
+
+    virtual void efeito(Caravana &caravana, Deserto &deserto)=0;
 
 };
 
